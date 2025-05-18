@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+:root{
+    --borderColor : lightgrey;
+    --btnColor : grey;
+    --btnTransition : 0.5s;
+    --btnFontColor : white;
+}
+*{
+    font-family: "Jost", sans-serif;
+}
+body{
+    margin: 0px;
+}
+
+/* NavBar */
+.custom_nav{
+    border-bottom: 1px solid var(--borderColor);
+    position: fixed;
+    width: 100%;
+    background-color:  #00000007 !important;
+    backdrop-filter: blur(15px);
+    z-index: 1;
+}
+.nav_flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+.dropdown_main{
+    display: inline;
+}
+.custom_container{
+    padding: 0px 40px !important;
+}
+.custom_brand{
+    text-transform: uppercase;
+    font-weight: bold;
+}
+.profile_image{
+    border-radius: 50%;
+    object-fit: fill;
+    border: 1px solid var(--borderColor);
+}
+/* End of Navbar */
+
+/* body style */
+.body{
+    margin: 0px 40px;
+}
+.body .topic_flex{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 100px 0px 20px 0px;
+}
+.btn_flex{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+.custom_dropdown, .custom_logout{
+    background-color: var(--btnColor);
+    color: var(--btnFontColor);
+}
+.custom_dropdown:hover, .custom_logout:hover{
+    background-color: var(--borderColor);
+    transition: var(--btnTransition);
+}
+.topic_flex .count, .btn_flex input{
+    border: 1px solid var(--borderColor);
+    padding: 7px 10px;
+    border-radius: 5px;
+}
+/* Table */
+.table_container{
+    border: 1px solid var(--borderColor);
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 30px;
+}
+.custom_warning{ /* alert message for duplication */
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 25px;
+}
+.update-btn, .delete-btn, .create-btn{
+    border: none;
+    padding: 7px 12px;
+    border-radius: 5px;
+    background-color: var(--btnColor);
+    color: var(--btnFontColor);
+}
+.create-btn:hover{
+    background-color: green;
+    transition: var(--btnTransition);
+}
+.update-btn:hover{
+    background-color: orange;
+    color: black;
+    transition: var(--btnTransition);
+}
+.delete-btn:hover{
+    background-color: red;
+    transition: var(--btnTransition);
+}
+/* End of bady style */
+
+/* offcanvas styles */
+.inputs{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+}
+.inputs .input_flex{
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    width: 100%;
+}
+.inputs .input_flex input, select{
+    padding: 10px 15px;
+    border: 1px solid var(--borderColor);
+    font-size: 18px;
+    width: 100%;
+}
+.inputs .add-btn{
+    background-color: var(--btnColor);
+    color: var(--btnFontColor);
+    padding: 5px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+}
+.add-btn:hover{
+    background-color: green;
+    transition: var(--btnTransition);
+}
+/* End of offcanvas styles */

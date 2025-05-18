@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+*{
+    font-family: "Jost", sans-serif;
+}
+.login_flex{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.field{
+    display: flex;
+    flex-direction: column;
+    padding: 0px 100px;
+    width: 450px;
+    gap: 15px;
+}
+.inputs{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+.inputs input{
+    padding: 10px 15px;
+    border: 1px solid #0000003b;
+    font-size: 18px;
+}
+.inputs .btn{
+    padding: 15px 15px;
+    font-size: 18px;
+    background-color: black;
+    color: white;
+    border: none;
+}
+.btn:hover{
+    background-color: #96ae97;
+    color: black;
+    transition: 0.5s;
+}
+.signin{
+    font-size: 45px;
+}
+img{
+    border-radius: 15px;
+    position: relative;
+}
+.img_text{
+    position: absolute;
+    z-index: 1;
+    font-size: 40px;
+    color: #ffffff3f;
+    text-transform: uppercase;
+    font-weight: bolder;
+    margin-left: 20px;
+    margin-top: 10px;
+}
