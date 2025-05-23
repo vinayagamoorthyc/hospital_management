@@ -4,6 +4,8 @@
 
     // db connection
     include "../db.php";
+    $db = new Database();
+    $conn = $db->getConnection();
 
     // session management
     session_start();
@@ -35,7 +37,7 @@
     // Show all appointments
     $curl = curl_init();
     curl_setopt_array($curl, array(
-        CURLOPT_URL => "http://127.0.0.1/evaluation3/receptionist/read.php",
+        CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/read.php",
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
         CURLOPT_POSTFIELDS => array(
@@ -52,10 +54,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Link for Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+    <!-- Script for toast for image upload functionality -->
     <script src="../assets/js/toast.js"></script>
+    <!-- Link for Bootstrap icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Link for my style -->
     <link rel="stylesheet" href="../assets/css/receptionist.css">
     <title>Receptionist</title>
 </head>
@@ -191,7 +197,7 @@
                         if(isset($_POST['deleteId'])){
                             $curl = curl_init();
                             curl_setopt_array($curl, array(
-                                CURLOPT_URL => "http://127.0.0.1/evaluation3/receptionist/delete.php",
+                                CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/delete.php",
                                 // CURLOPT_RETURNTRANSFER => true,
                                 CURLOPT_POST => true,
                                 CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
@@ -226,7 +232,7 @@
                 $data = json_encode($data);
                 $curl = curl_init();
                 curl_setopt_array($curl, array(
-                    CURLOPT_URL => "http://127.0.0.1/evaluation3/receptionist/create.php",
+                    CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/create.php",
                     CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
                     CURLOPT_POSTFIELDS => array(
@@ -259,7 +265,7 @@
                         <?php
                             $curl = curl_init();
                             curl_setopt_array($curl, array(
-                                CURLOPT_URL => "http://127.0.0.1/evaluation3/receptionist/read.php",
+                                CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/read.php",
                                 CURLOPT_RETURNTRANSFER => true,
                                 CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
                                 CURLOPT_POSTFIELDS => array("action" => "getPatients")
@@ -281,7 +287,7 @@
                         <?php
                             $curl = curl_init();
                             curl_setopt_array($curl, array(
-                                CURLOPT_URL => "http://127.0.0.1/evaluation3/receptionist/read.php",
+                                CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/read.php",
                                 CURLOPT_RETURNTRANSFER => true,
                                 CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
                                 CURLOPT_POSTFIELDS => array("action" => "getDoctors")
@@ -317,7 +323,7 @@
                 $data = json_encode($data);
                 $curl = curl_init();
                 curl_setopt_array($curl, array(
-                    CURLOPT_URL => "http://127.0.0.1/evaluation3/receptionist/create.php",
+                    CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/create.php",
                     CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
                     CURLOPT_POSTFIELDS => array(
@@ -368,7 +374,7 @@
                 if (isset($_POST['updateId'])) {
                     $curl = curl_init();
                     curl_setopt_array($curl, array(
-                        CURLOPT_URL => "http://127.0.0.1/evaluation3/receptionist/read.php",
+                        CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/read.php",
                         CURLOPT_RETURNTRANSFER => true,
                         CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
                         CURLOPT_POSTFIELDS => array(
@@ -415,7 +421,7 @@
                 $data = json_encode($data);
                 $curl = curl_init();
                 curl_setopt_array($curl, array(
-                    CURLOPT_URL => "http://127.0.0.1/evaluation3/receptionist/update.php",
+                    CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/update.php",
                     CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
                     CURLOPT_POSTFIELDS => array(
@@ -500,7 +506,7 @@
                 if (isset($_POST['p_updateId'])) {
                     $curl = curl_init();
                     curl_setopt_array($curl, array(
-                        CURLOPT_URL => "http://127.0.0.1/evaluation3/receptionist/read.php",
+                        CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/read.php",
                         CURLOPT_RETURNTRANSFER => true,
                         CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
                         CURLOPT_POSTFIELDS => array(
@@ -539,7 +545,7 @@
                 $data = json_encode($data);
                 $curl = curl_init();
                 curl_setopt_array($curl, array(
-                    CURLOPT_URL => "http://127.0.0.1/evaluation3/receptionist/update.php",
+                    CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/update.php",
                     CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
                     CURLOPT_POSTFIELDS => array(
