@@ -5,6 +5,7 @@
     include "../db.php";
 
     if($_SERVER['HTTP_API_KEY'] == 'hospital123'){
+        
         //authentication
         if($_POST['action'] == 'receptionist'){
             $data = json_decode($_POST['data'], true);
