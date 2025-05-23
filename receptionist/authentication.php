@@ -3,6 +3,8 @@
 
     // db connection
     include "../db.php";
+    $db = new Database();
+    $conn = $db->getConnection();
 
     if($_SERVER['HTTP_API_KEY'] == 'hospital123'){
         

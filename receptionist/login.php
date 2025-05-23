@@ -3,6 +3,9 @@
 
     // db connection
     include "../db.php";
+    $db = new Database();
+    $conn = $db->getConnection();
+
     setcookie(session_name(), "", time()+0, "/");
 
     //authentication
@@ -14,7 +17,7 @@
         $data = json_encode($data);
         $curl = curl_init();
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "http://127.0.0.1/evaluation3/receptionist/authentication.php",
+            CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/authentication.php",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_POST => true,
             CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
