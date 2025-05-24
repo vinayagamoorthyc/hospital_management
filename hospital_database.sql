@@ -33,7 +33,7 @@ CREATE TABLE `appointment` (
   KEY `r_doctorId` (`r_doctorId`),
   CONSTRAINT `appointment_ibfk_1` FOREIGN KEY (`r_patientId`) REFERENCES `patient` (`patientId`),
   CONSTRAINT `appointment_ibfk_2` FOREIGN KEY (`r_doctorId`) REFERENCES `doctor` (`doctorId`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `appointment` (
 
 LOCK TABLES `appointment` WRITE;
 /*!40000 ALTER TABLE `appointment` DISABLE KEYS */;
-INSERT INTO `appointment` VALUES (1,'2025-04-20','10:00:00',1,2),(2,'2025-04-21','11:30:00',2,5),(3,'2025-04-22','09:15:00',3,1),(4,'2025-04-23','14:00:00',4,3),(5,'2025-04-24','15:45:00',5,7),(6,'2025-04-25','13:00:00',6,4),(7,'2025-04-26','16:30:00',7,8),(8,'2025-04-27','08:45:00',8,6),(9,'2025-04-28','12:00:00',9,10),(10,'2025-04-29','10:30:00',10,9),(11,'2025-04-16','09:00:00',1,1),(12,'2025-04-16','09:30:00',2,2),(13,'2025-04-16','10:00:00',3,3),(14,'2025-04-16','10:30:00',4,4),(15,'2025-04-16','11:00:00',5,5),(16,'2025-04-16','11:30:00',6,6),(17,'2025-04-16','12:00:00',7,7),(18,'2025-04-16','12:30:00',8,8),(19,'2025-04-16','01:00:00',9,9),(20,'2025-04-16','01:30:00',10,10),(21,'2025-04-15','09:00:00',1,2),(22,'2025-04-15','09:30:00',2,4),(23,'2025-04-15','10:00:00',3,6),(24,'2025-04-15','10:30:00',4,8),(25,'2025-04-15','11:00:00',5,10),(26,'2025-04-15','11:30:00',6,1),(27,'2025-04-15','12:00:00',7,3),(28,'2025-04-15','12:30:00',8,5),(29,'2025-04-15','01:00:00',9,7),(31,'2025-04-17','09:01:00',1,3),(32,'2025-04-17','09:30:00',2,1),(33,'2025-04-17','10:00:00',3,5),(34,'2025-04-17','10:30:00',4,7),(35,'2025-04-17','11:00:00',5,9),(36,'2025-04-17','11:30:00',6,2),(37,'2025-04-17','12:00:00',7,4),(38,'2025-04-17','13:00:00',8,6),(39,'2025-04-17','13:30:00',9,8),(40,'2025-04-17','14:00:00',10,10);
+INSERT INTO `appointment` VALUES (2,'2025-05-24','12:30:00',30,2),(3,'2025-05-24','15:00:00',13,7),(4,'2025-05-24','14:00:00',11,4);
 /*!40000 ALTER TABLE `appointment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -172,7 +172,7 @@ CREATE TABLE `patient` (
   `gender` enum('male','female') NOT NULL,
   `phone` varchar(20) NOT NULL,
   PRIMARY KEY (`patientId`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -181,7 +181,7 @@ CREATE TABLE `patient` (
 
 LOCK TABLES `patient` WRITE;
 /*!40000 ALTER TABLE `patient` DISABLE KEYS */;
-INSERT INTO `patient` VALUES (1,'John Doe',30,'male','1234567890'),(2,'Alice Smith',25,'female','9876543210'),(3,'Bob Johnson',40,'male','5551234567'),(4,'Emily Davis',35,'female','4449876543'),(5,'Michael Brown',28,'male','7778889999'),(6,'Sophia Wilson',22,'female','6667778888'),(7,'David Lee',45,'male','3332221111'),(8,'Olivia Garcia',31,'female','1112223333'),(9,'Daniel Martinez',29,'male','8889990000'),(10,'Emma Hernandez',27,'female','9990001111'),(11,'Maria Randip Leon',21,'male','1122334455'),(12,'Vinayaga Moorthy',21,'male','9360810429'),(13,'Venkatesan',20,'female','8745294087'),(14,'Sanjay',21,'male','9647384732'),(15,'Jaya Priya',23,'female','9345865715');
+INSERT INTO `patient` VALUES (1,'John Doe',30,'male','1234567890'),(2,'Alice Smith',25,'male','9876543210'),(3,'Bob Johnson',40,'male','5551234567'),(4,'Emily Davis',35,'female','4449876543'),(5,'Michael Brown',28,'male','7778889999'),(6,'Sophia Wilson',22,'female','6667778888'),(7,'David Lee',45,'male','3332221111'),(8,'Olivia Garcia',31,'female','1112223333'),(9,'Daniel Martinez',29,'male','8889990000'),(10,'Emma Hernandez',27,'female','9990001111'),(11,'Maria Randip Leon',21,'male','1122334455'),(12,'Vinayaga Moorthy',21,'male','9360810429'),(13,'Venkatesan',20,'male','8745294087'),(14,'Sanjay',21,'male','9647384732'),(15,'Jaya Priya',23,'male','9345865715'),(16,'Lokesh',23,'male','8745294654'),(17,'Abinaya',21,'female','8681268747'),(18,'Ajay',22,'male','6376876873'),(19,'Dhanush',21,'male','5586512313'),(20,'Anbumani',25,'male','7678686378'),(27,'Niranjan',21,'male','8745294099'),(28,'Ravi',21,'male','1122854732'),(29,'Sakthivel',21,'male','6866841143'),(30,'Prem',23,'male','9360810000');
 /*!40000 ALTER TABLE `patient` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -225,8 +225,9 @@ CREATE TABLE `receptionist` (
   `name` varchar(20) NOT NULL,
   `phone` varchar(20) NOT NULL,
   `email` varchar(20) NOT NULL,
+  `pass` varchar(20) NOT NULL,
   PRIMARY KEY (`receptionistId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -235,6 +236,7 @@ CREATE TABLE `receptionist` (
 
 LOCK TABLES `receptionist` WRITE;
 /*!40000 ALTER TABLE `receptionist` DISABLE KEYS */;
+INSERT INTO `receptionist` VALUES (1,'Vinayaga Moorthy','1234567890','vinayaga@gmail.com','vinayaga123');
 /*!40000 ALTER TABLE `receptionist` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -247,4 +249,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-17 16:44:31
+-- Dump completed on 2025-05-24 13:45:21
