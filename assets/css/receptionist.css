@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
 :root{
-    --borderColor : lightgrey;
-    --btnColor : grey;
+    --borderColor : #96ae97;
+    --hoverColor : #96ae97a9;
+    --btnColor : #96ae97;
     --btnTransition : 0.5s;
-    --btnFontColor : white;
+    --btnFontColor : black;
 }
 *{
     font-family: "Jost", sans-serif;
@@ -11,13 +12,16 @@
 body{
     margin: 0px;
 }
+input:focus{
+    outline: none;
+}
 
 /* NavBar */
 .custom_nav{
     border-bottom: 1px solid var(--borderColor);
     position: fixed;
     width: 100%;
-    background-color:  #00000007 !important;
+    background-color:  #96ae972f !important;
     backdrop-filter: blur(15px);
     z-index: 1;
 }
@@ -39,7 +43,7 @@ body{
 }
 .profile_image{
     border-radius: 50%;
-    object-fit: fill;
+    object-fit: cover;
     border: 1px solid var(--borderColor);
 }
 /* End of Navbar */
@@ -66,7 +70,7 @@ body{
     color: var(--btnFontColor);
 }
 .custom_dropdown:hover, .custom_logout:hover{
-    background-color: var(--borderColor);
+    background-color: var(--hoverColor);
     transition: var(--btnTransition);
 }
 .topic_flex .count, .btn_flex input{
@@ -96,14 +100,15 @@ body{
 .create-btn:hover{
     background-color: green;
     transition: var(--btnTransition);
+    color: white;
 }
 .update-btn:hover{
     background-color: orange;
-    color: black;
     transition: var(--btnTransition);
 }
 .delete-btn:hover{
     background-color: red;
+    color: white;
     transition: var(--btnTransition);
 }
 /* End of bady style */
@@ -138,6 +143,7 @@ body{
 }
 .add-btn:hover{
     background-color: green;
+    color: white;
     transition: var(--btnTransition);
 }
 /* End of offcanvas styles */

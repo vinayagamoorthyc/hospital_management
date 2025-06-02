@@ -25,6 +25,9 @@
     border: 1px solid #0000003b;
     font-size: 18px;
 }
+input:focus{
+    outline: none;
+}
 .inputs .btn{
     padding: 15px 15px;
     font-size: 18px;

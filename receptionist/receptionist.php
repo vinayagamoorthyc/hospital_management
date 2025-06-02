@@ -1,56 +1,57 @@
 <?php
-    error_reporting(0);
-    ob_start();
+error_reporting(0);
+ob_start();
 
-    // db connection
-    include "../db.php";
-    $db = new Database();
-    $conn = $db->getConnection();
+// db connection
+include "../db.php";
+$db = new Database();
+$conn = $db->getConnection();
 
-    // session management
-    session_start();
-    if(!isset($_SESSION['sessionId'])){
-        header("Location: login.php");
+// session management
+session_start();
+if (!isset($_SESSION['sessionId'])) {
+    header("Location: login.php");
+}
+
+// Logout Session
+if (isset($_POST['logout'])) {
+    session_unset();
+    session_destroy();
+    setcookie(session_name(), "", time() + 0, "/");
+    header("Location: login.php");
+}
+
+// Profile Image upload
+elseif (isset($_FILES['profile_img'])) {
+    $_AallowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+    if (in_array($_FILES['profile_img']['type'], $_AallowedTypes)) {
+        move_uploaded_file($_FILES['profile_img']['tmp_name'], "../assets/images/profile.png");
+        setcookie("success_msg", "Profile Picture Uploaded Successfully!", time() + 2);
+        header("Location: receptionist.php");
+    } else {
+        setcookie("create_error", "You uploaded unsupported file! Upload format like png, jpg, jpeg!", time() + 2);
+        header("Location: receptionist.php");
     }
+}
 
-    // Logout Session
-    if(isset($_POST['logout'])){
-        session_unset();
-        session_destroy();
-        setcookie(session_name(), "", time()+0, "/");
-        header("Location: login.php");
-    }
-
-    // Profile Image upload
-    elseif(isset($_FILES['profile_img'])){
-        $_AallowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-        if (in_array($_FILES['profile_img']['type'], $_AallowedTypes)) {
-            move_uploaded_file($_FILES['profile_img']['tmp_name'], "../assets/images/profile.png");
-            setcookie("success_msg", "Profile Picture Uploaded Successfully!", time()+2);
-            header("Location: receptionist.php");
-        }else{
-            setcookie("create_error", "You uploaded unsupported file! Upload format like png, jpg, jpeg!", time()+2);
-            header("Location: receptionist.php");
-        }
-    }
-
-    // Show all appointments
-    $curl = curl_init();
-    curl_setopt_array($curl, array(
-        CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/read.php",
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
-        CURLOPT_POSTFIELDS => array(
-            "filter" => $_GET['filter'],
-            "action" => "getAppointments"
-            )
-    ));
-    $response = curl_exec($curl);
-    curl_close($curl);
-    $_Aappointments = json_decode($response, true);
+// Show all appointments
+$curl = curl_init();
+curl_setopt_array($curl, array(
+    CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/read.php",
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
+    CURLOPT_POSTFIELDS => array(
+        "filter" => $_GET['filter'],
+        "action" => "getAppointments"
+    )
+));
+$response = curl_exec($curl);
+curl_close($curl);
+$_Aappointments = json_decode($response, true);
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -65,13 +66,14 @@
     <link rel="stylesheet" href="../assets/css/receptionist.css">
     <title>Receptionist</title>
 </head>
+
 <body>
     <!-- header -->
     <nav class="navbar navbar-expand-lg bg-body-tertiary custom_nav">
         <div class="container-fluid custom_container">
             <a class="navbar-brand custom_brand" href="#">Receptionist</a>
             <div class="nav_flex">
-                    <img src="../assets/images/profile.png" alt="" width="40" height="40" class="profile_image" id="liveToastBtn">
+                <img src="../assets/images/profile.png" alt="" width="40" height="40" class="profile_image" id="liveToastBtn">
                 <div class="dropdown dropdown_main">
                     <button class="btn dropdown-toggle custom_dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Get Details
@@ -104,12 +106,12 @@
                         <li><a class="dropdown-item" href="./receptionist.php?filter=upcoming">Upcoming</a></li>
                     </ul>
                 </div>
-                <span class="count position-relative">Today Appointments 
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                <span class="count position-relative">
+                    <span class="badge text-bg-secondary bg-warning text-black">
                         <?php
-                            echo count($_Aappointments);
+                        echo count($_Aappointments);
                         ?>
-                    </span>
+                    </span> Appointments
                 </span>
                 <button class="create-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop3" aria-controls="offcanvasTop">Register a Patient</button>
                 <button class="create-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">Create an Appointment</button>
@@ -119,33 +121,33 @@
         <!-- show Appointment table -->
         <div class="table_container">
             <?php
-                // Alert for duplication
-                if(isset($_COOKIE['create_error'])){
-                    $_Screate_error = $_COOKIE['create_error'];
-                    echo "<div class='alert alert-warning custom_warning' role='alert'>
+            // Alert for duplication
+            if (isset($_COOKIE['create_error'])) {
+                $_Screate_error = $_COOKIE['create_error'];
+                echo "<div class='alert alert-warning custom_warning' role='alert'>
                     $_Screate_error
                     <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                     </div>";
-                }
-                // Success message for creation
-                elseif(isset($_COOKIE['success_msg'])){
-                    $_Ssuccess_msg = $_COOKIE['success_msg'];
-                    echo "<div class='alert alert-success custom_warning' role='alert'>
+            }
+            // Success message for creation
+            elseif (isset($_COOKIE['success_msg'])) {
+                $_Ssuccess_msg = $_COOKIE['success_msg'];
+                echo "<div class='alert alert-success custom_warning' role='alert'>
                     $_Ssuccess_msg
                     <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                     </div>";
-                }
-                // delete message after deletion
-                elseif(isset($_COOKIE['delete_msg'])){
-                    $_Sdelete_msg = $_COOKIE['delete_msg'];
-                    echo "<div class='alert alert-danger custom_warning' role='alert'>
+            }
+            // delete message after deletion
+            elseif (isset($_COOKIE['delete_msg'])) {
+                $_Sdelete_msg = $_COOKIE['delete_msg'];
+                echo "<div class='alert alert-danger custom_warning' role='alert'>
                     $_Sdelete_msg
                     <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                     </div>";
-                }
+            }
             ?>
             <table class="table custom_table">
-                <thead class="table-secondary">
+                <thead class="table-light">
                     <tr>
                         <th scope="col">Appointment ID</th>
                         <th scope="col">Date</th>
@@ -159,60 +161,60 @@
                 </thead>
                 <tbody>
                     <?php
-                        if (count($_Aappointments) > 0){
-                            foreach($_Aappointments as $key => $value){
-                                if($value['a_date'] < date("Y-m-d")){
-                                    $_Spast_restrict = "disabled";
-                                }
-                                echo "
+                    if (count($_Aappointments) > 0) {
+                        foreach ($_Aappointments as $key => $value) {
+                            if ($value['a_date'] < date("Y-m-d")) {
+                                $_Spast_restrict = "disabled";
+                            }
+                            echo "
                                     <tr>
-                                        <th scope='row'>".$value['appointmentId']."</th>
-                                        <td>".$value['a_date']."</td>
-                                        <td>".$value['a_time']."</td>
-                                        <td>".$value['pName']."</td>
-                                        <td>".$value['gender']."</td>
-                                        <td>".$value['contact']."</td>
-                                        <td>".$value['dName']."</td>
+                                        <th scope='row'>" . $value['appointmentId'] . "</th>
+                                        <td>" . $value['a_date'] . "</td>
+                                        <td>" . $value['a_time'] . "</td>
+                                        <td>" . $value['pName'] . "</td>
+                                        <td>" . $value['gender'] . "</td>
+                                        <td>" . $value['contact'] . "</td>
+                                        <td>" . $value['dName'] . "</td>
                                         <td>
                                             <form method='post' style='display:inline;'>
-                                                <input type='hidden' name='updateId' value='".$value['appointmentId']."'>
+                                                <input type='hidden' name='updateId' value='" . $value['appointmentId'] . "'>
                                                 <button class='update-btn' type='submit' $_Spast_restrict>Update</button>
                                             </form>
                                             <form method='post' style='display:inline;'>
-                                                <input type='hidden' name='deleteId' value='".$value['appointmentId']."'>
+                                                <input type='hidden' name='deleteId' value='" . $value['appointmentId'] . "'>
                                                 <button type='submit' class='delete-btn' $_Spast_restrict onclick=\"return confirm('Do you want to cancel this appointment?')\">Cancel</button>
                                             </form>
                                         </td>
                                     </tr>
                                 ";
-                            }    
-                        }else{
-                            echo "
+                        }
+                    } else {
+                        echo "
                                 <tr>
                                     <td colspan='8' style='text-align: center; '>No Record Found</td>
                                 </tr>
                             ";
+                    }
+                    //delete an appointment
+                    if (isset($_POST['deleteId'])) {
+                        $curl = curl_init();
+                        curl_setopt_array($curl, array(
+                            CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/delete.php",
+                            // CURLOPT_RETURNTRANSFER => true,
+                            CURLOPT_POST => true,
+                            CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
+                            CURLOPT_POSTFIELDS => array(
+                                "deleteId" => $_POST['deleteId'],
+                                "action" => "deleteAnAppointment"
+                            )
+                        ));
+                        $response = curl_exec($curl);
+                        curl_close($curl);
+                        if ($response == 'deleted') {
+                            setcookie("delete_msg", "You have cancelled an appointment!", time() + 2);
+                            header("Location: receptionist.php");
                         }
-                        //delete an appointment
-                        if(isset($_POST['deleteId'])){
-                            $curl = curl_init();
-                            curl_setopt_array($curl, array(
-                                CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/delete.php",
-                                // CURLOPT_RETURNTRANSFER => true,
-                                CURLOPT_POST => true,
-                                CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
-                                CURLOPT_POSTFIELDS => array(
-                                    "deleteId" => $_POST['deleteId'],
-                                    "action" => "deleteAnAppointment"
-                                    )
-                            ));
-                            $response = curl_exec($curl);
-                            curl_close($curl);
-                            if($response == 'deleted'){
-                                setcookie("delete_msg", "You have cancelled an appointment!", time()+2);
-                                header("Location: receptionist.php");
-                            }
-                        }
+                    }
                     ?>
                 </tbody>
             </table>
@@ -222,34 +224,34 @@
     <!-- create an appointment offcanvas -->
     <div class="offcanvas offcanvas-top" tabindex="-1" data-bs-scroll="true" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
         <?php
-            if(isset($_POST['addAppointment'])){
-                $data = array(
-                    'dateOfAppointment' => $_REQUEST['dateOfAppointment'],
-                    'timeOfAppointment' => $_REQUEST['timeOfAppointment'],
-                    "patientId" => $_REQUEST['patientId'],
-                    'doctorId' => $_REQUEST['doctorId']
-                );
-                $data = json_encode($data);
-                $curl = curl_init();
-                curl_setopt_array($curl, array(
-                    CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/create.php",
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
-                    CURLOPT_POSTFIELDS => array(
-                        "data" => $data,
-                        "action" => "createAppointment"
-                        )
-                ));
-                $response = curl_exec($curl);
-                curl_close($curl);
-                if($response == 'created'){
-                    setcookie("success_msg", "Appointment created successfully!", time()+2);
-                    header("Location: receptionist.php");
-                }else{
-                    setcookie("create_error", $response, time()+2);
-                    header("Location: receptionist.php");
-                }
+        if (isset($_POST['addAppointment'])) {
+            $data = array(
+                'dateOfAppointment' => $_REQUEST['dateOfAppointment'],
+                'timeOfAppointment' => $_REQUEST['timeOfAppointment'],
+                "patientId" => $_REQUEST['patientId'],
+                'doctorId' => $_REQUEST['doctorId']
+            );
+            $data = json_encode($data);
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/create.php",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
+                CURLOPT_POSTFIELDS => array(
+                    "data" => $data,
+                    "action" => "createAppointment"
+                )
+            ));
+            $response = curl_exec($curl);
+            curl_close($curl);
+            if ($response == 'created') {
+                setcookie("success_msg", "Appointment created successfully!", time() + 2);
+                header("Location: receptionist.php");
+            } else {
+                setcookie("create_error", $response, time() + 2);
+                header("Location: receptionist.php");
             }
+        }
         ?>
         <div class="offcanvas-header">
             <h4 class="offcanvas-title" id="offcanvasTopLabel">Create an Appointment</h4>
@@ -263,45 +265,45 @@
                     <select name="patientId">
                         <option selected disabled>Patient Name</option>
                         <?php
-                            $curl = curl_init();
-                            curl_setopt_array($curl, array(
-                                CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/read.php",
-                                CURLOPT_RETURNTRANSFER => true,
-                                CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
-                                CURLOPT_POSTFIELDS => array("action" => "getPatients")
-                            ));
-                            $response = curl_exec($curl);
-                            curl_close($curl);
-                            $_Apatients = json_decode($response, true);
-                            if (count($_Apatients) > 0){
-                                foreach($_Apatients as $key => $value){
-                                    echo "
-                                        <option value='".$value['patientId']."'>".$value['name']."</option>
+                        $curl = curl_init();
+                        curl_setopt_array($curl, array(
+                            CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/read.php",
+                            CURLOPT_RETURNTRANSFER => true,
+                            CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
+                            CURLOPT_POSTFIELDS => array("action" => "getPatients")
+                        ));
+                        $response = curl_exec($curl);
+                        curl_close($curl);
+                        $_Apatients = json_decode($response, true);
+                        if (count($_Apatients) > 0) {
+                            foreach ($_Apatients as $key => $value) {
+                                echo "
+                                        <option value='" . $value['patientId'] . "'>" . $value['name'] . "</option>
                                     ";
-                                }
                             }
+                        }
                         ?>
                     </select>
                     <select name="doctorId">
                         <option selected disabled>Doctor Name</option>
                         <?php
-                            $curl = curl_init();
-                            curl_setopt_array($curl, array(
-                                CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/read.php",
-                                CURLOPT_RETURNTRANSFER => true,
-                                CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
-                                CURLOPT_POSTFIELDS => array("action" => "getDoctors")
-                            ));
-                            $response = curl_exec($curl);
-                            curl_close($curl);
-                            $_Adoctors = json_decode($response, true);
-                            if (count($_Adoctors) > 0){
-                                foreach($_Adoctors as $key => $value){
-                                    echo "
-                                        <option value='".$value['doctorId']."'>".$value['name']."</option>
+                        $curl = curl_init();
+                        curl_setopt_array($curl, array(
+                            CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/read.php",
+                            CURLOPT_RETURNTRANSFER => true,
+                            CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
+                            CURLOPT_POSTFIELDS => array("action" => "getDoctors")
+                        ));
+                        $response = curl_exec($curl);
+                        curl_close($curl);
+                        $_Adoctors = json_decode($response, true);
+                        if (count($_Adoctors) > 0) {
+                            foreach ($_Adoctors as $key => $value) {
+                                echo "
+                                        <option value='" . $value['doctorId'] . "'>" . $value['name'] . "</option>
                                     ";
-                                }
                             }
+                        }
                         ?>
                     </select>
                 </div>
@@ -313,34 +315,34 @@
     <!-- create a patient offcanvas -->
     <div class="offcanvas offcanvas-top" tabindex="-1" data-bs-scroll="true" id="offcanvasTop3" aria-labelledby="offcanvasTopLabel">
         <?php
-            if(isset($_POST['addPatient'])){
-                $data = array(
-                    'name' => $_REQUEST['name'],
-                    'age' => $_REQUEST['age'],
-                    "gender" => $_REQUEST['gender'],
-                    'phone' => $_REQUEST['phone']
-                );
-                $data = json_encode($data);
-                $curl = curl_init();
-                curl_setopt_array($curl, array(
-                    CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/create.php",
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
-                    CURLOPT_POSTFIELDS => array(
-                        "data" => $data,
-                        "action" => "createPatient"
-                        )
-                ));
-                $response = curl_exec($curl);
-                curl_close($curl);
-                if($response == 'created'){
-                    setcookie("success_msg", "Patient registered successfully!", time()+2);
-                    header("Location: receptionist.php");
-                }else{
-                    setcookie("create_error", $response, time()+2);
-                    header("Location: receptionist.php");
-                }
+        if (isset($_POST['addPatient'])) {
+            $data = array(
+                'name' => $_REQUEST['name'],
+                'age' => $_REQUEST['age'],
+                "gender" => $_REQUEST['gender'],
+                'phone' => $_REQUEST['phone']
+            );
+            $data = json_encode($data);
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/create.php",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
+                CURLOPT_POSTFIELDS => array(
+                    "data" => $data,
+                    "action" => "createPatient"
+                )
+            ));
+            $response = curl_exec($curl);
+            curl_close($curl);
+            if ($response == 'created') {
+                setcookie("success_msg", "Patient registered successfully!", time() + 2);
+                header("Location: receptionist.php");
+            } else {
+                setcookie("create_error", $response, time() + 2);
+                header("Location: receptionist.php");
             }
+        }
         ?>
         <div class="offcanvas-header">
             <h4 class="offcanvas-title" id="offcanvasTopLabel">Create a Patient</h4>
@@ -364,81 +366,81 @@
     </div>
     <!-- End of create patient -->
     <!-- update an appointment -->
-    <div class="offcanvas offcanvas-top <?php if (isset($_POST['updateId'])) echo "show";?>" tabindex="-1" data-bs-scroll="true" id="offcanvasTop2" aria-labelledby="offcanvasTopLabel">
+    <div class="offcanvas offcanvas-top <?php if (isset($_POST['updateId'])) echo "show"; ?>" tabindex="-1" data-bs-scroll="true" id="offcanvasTop2" aria-labelledby="offcanvasTopLabel">
         <div class="offcanvas-header">
             <h4 class="offcanvas-title" id="offcanvasTopLabel">Update an Appointment</h4>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
             <?php
-                if (isset($_POST['updateId'])) {
-                    $curl = curl_init();
-                    curl_setopt_array($curl, array(
-                        CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/read.php",
-                        CURLOPT_RETURNTRANSFER => true,
-                        CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
-                        CURLOPT_POSTFIELDS => array(
-                            "updateId" => $_POST['updateId'],
-                            "action" => "getAnAppointment"
-                            )
-                    ));
-                    $response = curl_exec($curl);
-                    curl_close($curl);
-                    $_AtoUpdate = json_decode($response, true);
-                }
-            ?>
-            <form class="inputs" method="post">
-                <div class="input_flex">
-                    <input type="date" name="dateOfAppointment" placeholder="Date" required value="<?php echo $_AtoUpdate['a_date'];?>">
-                    <input type="time" name="timeOfAppointment" placeholder="Time" required value="<?php echo $_AtoUpdate['a_time'];?>">
-                    <input type="number" name="patientId" placeholder="Patient ID" required value="<?php echo $_AtoUpdate['r_patientId'];?>" hidden>
-                    <input type="text" name="patientName" required value="<?php echo $_AtoUpdate['name'];?>" disabled>
-                    <select name="doctorId">
-                        <option selected disabled>Doctor Name</option>
-                        <?php
-                            foreach($_Adoctors as $key => $value){
-                                echo "<option ";
-                                if($_AtoUpdate['r_doctorId'] == $value['doctorId']){
-                                    echo "selected";
-                                } 
-                                echo " value='".$value['doctorId']."'>".$value['name']."</option>";
-                            }
-                        ?>
-                    </select>
-                </div>
-                <button class="update-btn" type="submit" name="updateAppointment" value="<?php echo $_POST['updateId'];?>">Update Appointment</button>
-            </form>
-        </div>
-        <?php
-            if(isset($_POST['updateAppointment'])){
-                $data = array(
-                    'updateAppointment' => $_POST['updateAppointment'],
-                    'dateOfAppointment' => $_POST['dateOfAppointment'],
-                    'timeOfAppointment' => $_POST['timeOfAppointment'],
-                    "patientId" => $_POST['patientId'],
-                    'doctorId' => $_POST['doctorId']
-                );
-                $data = json_encode($data);
+            if (isset($_POST['updateId'])) {
                 $curl = curl_init();
                 curl_setopt_array($curl, array(
-                    CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/update.php",
+                    CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/read.php",
                     CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
                     CURLOPT_POSTFIELDS => array(
-                        "data" => $data,
-                        "action" => "updateAppointment"
-                        )
+                        "updateId" => $_POST['updateId'],
+                        "action" => "getAnAppointment"
+                    )
                 ));
                 $response = curl_exec($curl);
                 curl_close($curl);
-                if($response == 'updated'){
-                    setcookie("success_msg", "Appointment updated successfully!", time()+2);
-                    header("Location: receptionist.php");
-                }else{
-                    setcookie("create_error", $response, time()+2);
-                    header("Location: receptionist.php");
-                }
+                $_AtoUpdate = json_decode($response, true);
             }
+            ?>
+            <form class="inputs" method="post">
+                <div class="input_flex">
+                    <input type="date" name="dateOfAppointment" placeholder="Date" required value="<?php echo $_AtoUpdate['a_date']; ?>">
+                    <input type="time" name="timeOfAppointment" placeholder="Time" required value="<?php echo $_AtoUpdate['a_time']; ?>">
+                    <input type="number" name="patientId" placeholder="Patient ID" required value="<?php echo $_AtoUpdate['r_patientId']; ?>" hidden>
+                    <input type="text" name="patientName" required value="<?php echo $_AtoUpdate['name']; ?>" disabled>
+                    <select name="doctorId">
+                        <option selected disabled>Doctor Name</option>
+                        <?php
+                        foreach ($_Adoctors as $key => $value) {
+                            echo "<option ";
+                            if ($_AtoUpdate['r_doctorId'] == $value['doctorId']) {
+                                echo "selected";
+                            }
+                            echo " value='" . $value['doctorId'] . "'>" . $value['name'] . "</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+                <button class="update-btn" type="submit" name="updateAppointment" value="<?php echo $_POST['updateId']; ?>">Update Appointment</button>
+            </form>
+        </div>
+        <?php
+        if (isset($_POST['updateAppointment'])) {
+            $data = array(
+                'updateAppointment' => $_POST['updateAppointment'],
+                'dateOfAppointment' => $_POST['dateOfAppointment'],
+                'timeOfAppointment' => $_POST['timeOfAppointment'],
+                "patientId" => $_POST['patientId'],
+                'doctorId' => $_POST['doctorId']
+            );
+            $data = json_encode($data);
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/update.php",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
+                CURLOPT_POSTFIELDS => array(
+                    "data" => $data,
+                    "action" => "updateAppointment"
+                )
+            ));
+            $response = curl_exec($curl);
+            curl_close($curl);
+            if ($response == 'updated') {
+                setcookie("success_msg", "Appointment updated successfully!", time() + 2);
+                header("Location: receptionist.php");
+            } else {
+                setcookie("create_error", $response, time() + 2);
+                header("Location: receptionist.php");
+            }
+        }
         ?>
     </div>
     <!-- end of update appointment-->
@@ -463,31 +465,31 @@
                     </thead>
                     <tbody>
                         <?php
-                            if (count($_Apatients) > 0){
-                                foreach($_Apatients as $key => $value){
-                                    echo "
+                        if (count($_Apatients) > 0) {
+                            foreach ($_Apatients as $key => $value) {
+                                echo "
                                         <tr>
-                                            <th scope='row'>".$value['patientId']."</th>
-                                            <td>".$value['name']."</td>
-                                            <td>".$value['age']."</td>
-                                            <td>".$value['gender']."</td>
-                                            <td>".$value['phone']."</td>
+                                            <th scope='row'>" . $value['patientId'] . "</th>
+                                            <td>" . $value['name'] . "</td>
+                                            <td>" . $value['age'] . "</td>
+                                            <td>" . $value['gender'] . "</td>
+                                            <td>" . $value['phone'] . "</td>
                                             <td>
                                                 <form method='post' style='display:inline;'>
-                                                    <input type='hidden' name='p_updateId' value='".$value['patientId']."'>
+                                                    <input type='hidden' name='p_updateId' value='" . $value['patientId'] . "'>
                                                     <button class='update-btn' type='submit'>Update</button>
                                                 </form>
                                             </td>
                                         </tr>
                                     ";
-                                }    
-                            }else{
-                                echo "
+                            }
+                        } else {
+                            echo "
                                     <tr>
                                         <td colspan='6'>No Record Found</td>
                                     </tr>
                                 ";
-                            }
+                        }
                         ?>
                     </tbody>
                 </table>
@@ -496,73 +498,73 @@
     </div>
     <!-- end of show patients -->
     <!-- update a patient -->
-    <div class="offcanvas offcanvas-top <?php if (isset($_POST['p_updateId'])) echo "show";?>" tabindex="-1" data-bs-scroll="true" id="offcanvasTop2" aria-labelledby="offcanvasTopLabel">
+    <div class="offcanvas offcanvas-top <?php if (isset($_POST['p_updateId'])) echo "show"; ?>" tabindex="-1" data-bs-scroll="true" id="offcanvasTop2" aria-labelledby="offcanvasTopLabel">
         <div class="offcanvas-header">
             <h4 class="offcanvas-title" id="offcanvasTopLabel">Update a Patient</h4>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
             <?php
-                if (isset($_POST['p_updateId'])) {
-                    $curl = curl_init();
-                    curl_setopt_array($curl, array(
-                        CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/read.php",
-                        CURLOPT_RETURNTRANSFER => true,
-                        CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
-                        CURLOPT_POSTFIELDS => array(
-                            "p_updateId" => $_POST['p_updateId'],
-                            "action" => "getaPatient"
-                            )
-                    ));
-                    $response = curl_exec($curl);
-                    curl_close($curl);
-                    $_AtoUpdate = json_decode($response, true);
-                }
-            ?>
-            <form class="inputs" method="post">
-                <div class="input_flex">
-                    <input type="text" name="name" placeholder="Patient's Name" required value="<?php echo $_AtoUpdate['name'];?>">
-                    <input type="number" name="age" placeholder="Patient's Age" required value="<?php echo $_AtoUpdate['age'];?>">
-                    <select name="gender">
-                        <option selected disabled>Patient's Gender</option>
-                        <option value="male" <?php if($_AtoUpdate['gender']=='male') echo 'selected'?>>Male</option>
-                        <option value="female" <?php if($_AtoUpdate['gender']=='female') echo 'selected'?>>Female</option>
-                    </select>
-                    <input type="text" name="phone" placeholder="Contact Number" required value="<?php echo $_AtoUpdate['phone'];?>">
-                </div>
-                <button class="update-btn" type="submit" name="updatePatient" value="<?php echo $_POST['p_updateId'];?>">Update Patient</button>
-            </form>
-        </div>
-        <?php
-            if(isset($_POST['updatePatient'])){
-                $data = array(
-                    'updatePatient' => $_POST['updatePatient'],
-                    'name' => $_POST['name'],
-                    'age' => $_POST['age'],
-                    "gender" => $_POST['gender'],
-                    'phone' => $_POST['phone']
-                );
-                $data = json_encode($data);
+            if (isset($_POST['p_updateId'])) {
                 $curl = curl_init();
                 curl_setopt_array($curl, array(
-                    CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/update.php",
+                    CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/read.php",
                     CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
                     CURLOPT_POSTFIELDS => array(
-                        "data" => $data,
-                        "action" => "updatePatient"
-                        )
+                        "p_updateId" => $_POST['p_updateId'],
+                        "action" => "getaPatient"
+                    )
                 ));
                 $response = curl_exec($curl);
                 curl_close($curl);
-                if($response == 'updated'){
-                    setcookie("success_msg", "Patient Details updated successfully!", time()+2);
-                    header("Location: receptionist.php");
-                }else{
-                    setcookie("create_error", $response, time()+2);
-                    header("Location: receptionist.php");
-                }
+                $_AtoUpdate = json_decode($response, true);
             }
+            ?>
+            <form class="inputs" method="post">
+                <div class="input_flex">
+                    <input type="text" name="name" placeholder="Patient's Name" required value="<?php echo $_AtoUpdate['name']; ?>">
+                    <input type="number" name="age" placeholder="Patient's Age" required value="<?php echo $_AtoUpdate['age']; ?>">
+                    <select name="gender">
+                        <option selected disabled>Patient's Gender</option>
+                        <option value="male" <?php if ($_AtoUpdate['gender'] == 'male') echo 'selected' ?>>Male</option>
+                        <option value="female" <?php if ($_AtoUpdate['gender'] == 'female') echo 'selected' ?>>Female</option>
+                    </select>
+                    <input type="text" name="phone" placeholder="Contact Number" required value="<?php echo $_AtoUpdate['phone']; ?>">
+                </div>
+                <button class="update-btn" type="submit" name="updatePatient" value="<?php echo $_POST['p_updateId']; ?>">Update Patient</button>
+            </form>
+        </div>
+        <?php
+        if (isset($_POST['updatePatient'])) {
+            $data = array(
+                'updatePatient' => $_POST['updatePatient'],
+                'name' => $_POST['name'],
+                'age' => $_POST['age'],
+                "gender" => $_POST['gender'],
+                'phone' => $_POST['phone']
+            );
+            $data = json_encode($data);
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/update.php",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
+                CURLOPT_POSTFIELDS => array(
+                    "data" => $data,
+                    "action" => "updatePatient"
+                )
+            ));
+            $response = curl_exec($curl);
+            curl_close($curl);
+            if ($response == 'updated') {
+                setcookie("success_msg", "Patient Details updated successfully!", time() + 2);
+                header("Location: receptionist.php");
+            } else {
+                setcookie("create_error", $response, time() + 2);
+                header("Location: receptionist.php");
+            }
+        }
         ?>
     </div>
     <!-- end of update patient-->
@@ -586,25 +588,25 @@
                     </thead>
                     <tbody>
                         <?php
-                            if (count($_Adoctors) > 0){
-                                foreach($_Adoctors as $key => $value){
-                                    echo "
+                        if (count($_Adoctors) > 0) {
+                            foreach ($_Adoctors as $key => $value) {
+                                echo "
                                         <tr>
-                                            <th scope='row'>".$value['doctorId']."</th>
-                                            <td>".$value['name']."</td>
-                                            <td>".$value['specialization']."</td>
-                                            <td>".$value['phone']."</td>
-                                            <td>".$value['email']."</td>
+                                            <th scope='row'>" . $value['doctorId'] . "</th>
+                                            <td>" . $value['name'] . "</td>
+                                            <td>" . $value['specialization'] . "</td>
+                                            <td>" . $value['phone'] . "</td>
+                                            <td>" . $value['email'] . "</td>
                                         </tr>
                                     ";
-                                }    
-                            }else{
-                                echo "
+                            }
+                        } else {
+                            echo "
                                     <tr>
                                         <td>No Record Found</td>
                                     </tr>
                                 ";
-                            }
+                        }
                         ?>
                     </tbody>
                 </table>
@@ -615,7 +617,7 @@
     <!-- Profile Upload Toast -->
     <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
         <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false" style="width: 375px;">
-            <div class="toast-header">
+            <div class="toast-header" style="background-color: #96ae97a9;">
                 <strong class="me-auto">Profile Upload</strong>
                 <small></small>
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
@@ -630,5 +632,6 @@
     </div>
     <!-- End of Profile Upload toast -->
 </body>
+
 </html>
 <?php $conn = null; ?>
