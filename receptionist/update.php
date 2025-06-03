@@ -78,7 +78,7 @@ use Dom\DtdNamedNodeMap;
             $_IdoctorId = $data['doctorId'];
             $_Sstatus = $data['status'];
 
-            if($_Sdate < date("Y-m-d") || ($_Sdate == date("Y-m-d") && strtotime($_Stime)+60 < time())){
+            if($_Sdate < date("Y-m-d") || ($_Sdate == date("Y-m-d") && strtotime($_Stime)+300 < time())){
                 echo "You cannot update a past appointment!";
             }
             elseif($appointment->isSlotTaken($_Sdate, $_Stime, $_IupdateId)){
