@@ -227,7 +227,7 @@ if ($_GET['filter'] == 'previous') {
                         } else {
                             echo "
                                     <tr>
-                                        <td colspan='8' style='text-align: center; '>No Record Found</td>
+                                        <td colspan='9' style='text-align: center; '>No Record Found</td>
                                     </tr>
                                 ";
                         }
@@ -536,7 +536,7 @@ if ($_GET['filter'] == 'previous') {
                         } else {
                             echo "
                                     <tr>
-                                        <td colspan='6'>No Record Found</td>
+                                        <td colspan='6' style='text-align: center'>No Record Found</td>
                                     </tr>
                                 ";
                         }
@@ -653,7 +653,7 @@ if ($_GET['filter'] == 'previous') {
                         } else {
                             echo "
                                     <tr>
-                                        <td>No Record Found</td>
+                                        <td colspan='5' style='text-align: center'>No Record Found</td>
                                     </tr>
                                 ";
                         }
