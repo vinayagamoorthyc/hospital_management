@@ -156,6 +156,13 @@ if ($_GET['filter'] == 'previous') {
                     </div>";
             }
             ?>
+            <?php
+            if (count($_Aappointments) > 0) {
+                if ($_GET['filter'] == 'previous') {
+                    $_Spast_restrict= "style='display: none'";
+                    $mark = "border-left: 5px solid #6c757d;";
+                }
+            ?>
             <div class="table-responsive">
                 <table class="table table-hover custom_table">
                     <thead class="table-light">
@@ -168,19 +175,15 @@ if ($_GET['filter'] == 'previous') {
                             <th scope="col">Patient Contact</th>
                             <th scope="col">Doctor Name</th>
                             <th scope="col">Status</th>
-                            <th scope="col">Actions</th>
+                            <th <?php echo $_Spast_restrict ?> scope="col">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                        if (count($_Aappointments) > 0) {
                             foreach ($_Aappointments as $key => $value) {
-                                if ($_GET['filter'] == 'previous') {
-                                    $_Spast_restrict = "disabled";
-                                    $mark = "border-left: 5px solid #6c757d;";
-                                } else if ($_GET['filter'] == 'upcoming') {
+                                if ($_GET['filter'] == 'upcoming') {
                                     $mark = "border-left: 5px solid #007bff;";
-                                } else {
+                                } elseif($_GET['filter'] == 'today') {
                                     if ($value['status'] == 'Not Attended') {
                                         $mark = "border-left: 5px solid red;";
                                     } else {
@@ -197,12 +200,12 @@ if ($_GET['filter'] == 'previous') {
                                     <td><?php echo $value['contact'] ?></td>
                                     <td><?php echo $value['dName'] ?></td>
                                     <td><?php echo $value['status'] ?></td>
-                                    <td>
+                                    <td <?php echo $_Spast_restrict ?>>
                                         <form method='post' style='display:inline;'>
                                             <input type='hidden' name='updateId' value="<?php echo $value['appointmentId'] ?>">
-                                            <button class='update-btn' type='submit' <?php echo $_Spast_restrict ?>>Update</button>
+                                            <button class='update-btn' type='submit'>Update</button>
                                         </form>
-                                        <button type='button' class='delete-btn' <?php echo $_Spast_restrict ?> data-bs-toggle='modal' data-bs-target='#exampleModal'>Cancel</button>
+                                        <button type='button' class='delete-btn' data-bs-toggle='modal' data-bs-target='#exampleModal'>Cancel</button>
                                         <div class='modal fade' id='exampleModal' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
                                             <div class='modal-dialog modal-sm'>
                                                 <div class='modal-content'>
@@ -447,13 +450,12 @@ if ($_GET['filter'] == 'previous') {
                     <select name="status">
                         <!-- <option selected disabled>Status</option> -->
                         <?php
-                            echo "<option selected value='" . $_AtoUpdate['status'] . "'>" . $_AtoUpdate['status'] . "</option>";
-                            if($_AtoUpdate['status'] == 'Attended'){
-                                echo "<option value='Not Attended'>Not Attended</option>";
-                            } 
-                            elseif ($_AtoUpdate['status'] == 'Not Attended') {
+                        echo "<option selected value='" . $_AtoUpdate['status'] . "'>" . $_AtoUpdate['status'] . "</option>";
+                        if ($_AtoUpdate['status'] == 'Attended') {
+                            echo "<option value='Not Attended'>Not Attended</option>";
+                        } elseif ($_AtoUpdate['status'] == 'Not Attended') {
                             echo "<option value='Attended'>Attended</option>";
-                            }
+                        }
                         ?>
                     </select>
                 </div>
@@ -682,4 +684,5 @@ if ($_GET['filter'] == 'previous') {
     </div>
     <!-- End of Profile Upload toast -->
 </body>
+
 </html>
