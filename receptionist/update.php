@@ -1,17 +1,19 @@
 <?php
+
+use Dom\DtdNamedNodeMap;
+
     error_reporting(0);
 
     // db connection
     include "../db.php";
-    $db = new Database();
-    $conn = $db->getConnection();
 
     // Appointment Class
-    class Appointment{
+    class Appointment extends Database{
         private $conn;
 
-        public function __construct($conn){
-            $this->conn = $conn;
+        public function __construct(){
+            parent::__construct();
+            $this->conn = parent::getConnection();
         }
 
         public function isSlotTaken($_Sdate, $_Stime, $_IupdateId){
@@ -23,23 +25,24 @@
             return $stmt->rowCount() > 0;
         }
 
-        public function update($_Sdate, $_Stime, $_IpatientId, $_IdoctorId, $_IupdateId){
-            $stmt = $this->conn->prepare("UPDATE appointment set a_date = ?, a_time = ?, r_patientId = ?, r_doctorId = ? where appointmentId = ?;");
+        public function update($_Sdate, $_Stime, $_IpatientId, $_IdoctorId, $_IupdateId, $_Sstatus){
+            $stmt = $this->conn->prepare("UPDATE appointment set a_date = ?, a_time = ?, r_patientId = ?, r_doctorId = ?, status = ? where appointmentId = ?;");
             $stmt->bindParam(1, $_Sdate);
             $stmt->bindParam(2, $_Stime);
             $stmt->bindParam(3, $_IpatientId);
             $stmt->bindParam(4, $_IdoctorId);
-            $stmt->bindParam(5, $_IupdateId);
+            $stmt->bindParam(5, $_Sstatus);
+            $stmt->bindParam(6, $_IupdateId);
             $stmt->execute();
         }
     }
 
     // Patient Class
-    class Patient{
+    class Patient extends Database{
         private $conn;
 
-        public function __construct($conn){
-            $this->conn = $conn;
+        public function __construct(){
+            $this->conn = parent::getConnection();
         }
 
         public function isPhoneRegistered($_Sphone, $_IupdateId){
@@ -66,13 +69,14 @@
         
         // update an appointment
         if($_POST['action'] == 'updateAppointment'){
-            $appointment = new Appointment($conn);
+            $appointment = new Appointment();
 
             $_IupdateId = $data['updateAppointment'];
             $_Sdate = $data['dateOfAppointment'];
             $_Stime = $data['timeOfAppointment'];
             $_IpatientId = $data['patientId'];
             $_IdoctorId = $data['doctorId'];
+            $_Sstatus = $data['status'];
 
             if($_Sdate < date("Y-m-d") || ($_Sdate == date("Y-m-d") && strtotime($_Stime)+60 < time())){
                 echo "You cannot update a past appointment!";
@@ -80,14 +84,14 @@
             elseif($appointment->isSlotTaken($_Sdate, $_Stime, $_IupdateId)){
                echo "Already an Appointment Scheduled on this date and time!";
             }else{
-                $appointment->update($_Sdate, $_Stime, $_IpatientId, $_IdoctorId, $_IupdateId);
+                $appointment->update($_Sdate, $_Stime, $_IpatientId, $_IdoctorId, $_IupdateId, $_Sstatus);
                 echo 'updated';
             }
         }
     
         // update a patient
         elseif($_POST['action'] == 'updatePatient'){
-            $patient = new Patient($conn);
+            $patient = new Patient();
 
             $_IupdateId = $data['updatePatient'];
             $_Sname = $data['name'];

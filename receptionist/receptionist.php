@@ -2,11 +2,6 @@
 error_reporting(0);
 ob_start();
 
-// db connection
-include "../db.php";
-$db = new Database();
-$conn = $db->getConnection();
-
 // session management
 session_start();
 if (!isset($_SESSION['sessionId'])) {
@@ -48,6 +43,16 @@ curl_setopt_array($curl, array(
 $response = curl_exec($curl);
 curl_close($curl);
 $_Aappointments = json_decode($response, true);
+
+// For Status Color Change
+if ($_GET['filter'] == 'previous') {
+    $_Spast_restrict = "disabled";
+    $mark = "border-left: 5px solid #6c757d;";
+} else if ($_GET['filter'] == 'upcoming') {
+    $mark = "border-left: 5px solid #007bff;";
+} else {
+    $mark = "border-left: 5px solid #28a745;";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -69,23 +74,28 @@ $_Aappointments = json_decode($response, true);
 
 <body>
     <!-- header -->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary custom_nav">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary custom_nav fixed-top">
         <div class="container-fluid custom_container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <a class="navbar-brand custom_brand" href="#">Receptionist</a>
-            <div class="nav_flex">
-                <img src="../assets/images/profile.png" alt="" width="40" height="40" class="profile_image" id="liveToastBtn">
-                <div class="dropdown dropdown_main">
-                    <button class="btn dropdown-toggle custom_dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Get Details
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom1" aria-controls="offcanvasBottom">Patients</a></li>
-                        <li><a class="dropdown-item" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom2" aria-controls="offcanvasBottom">Doctors</a></li>
-                    </ul>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo01" style="flex-grow: 0;">
+                <div class="nav_flex">
+                    <img src="../assets/images/profile.png" alt="" width="40" height="40" class="profile_image nav-item" id="liveToastBtn">
+                    <div class="dropdown dropdown_main nav-item">
+                        <button class="btn dropdown-toggle custom_dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Get Details
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom1" aria-controls="offcanvasBottom">Patients</a></li>
+                            <li><a class="dropdown-item" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom2" aria-controls="offcanvasBottom">Doctors</a></li>
+                        </ul>
+                    </div>
+                    <form method='post' style='display:inline;' class="nav-item">
+                        <button class='btn custom_logout' type='submit' name="logout" value="logout"><i class="bi bi-person profile_icon"></i> Logout</button>
+                    </form>
                 </div>
-                <form method='post' style='display:inline;'>
-                    <button class='btn custom_logout' type='submit' name="logout" value="logout"><i class="bi bi-person profile_icon"></i> Logout</button>
-                </form>
             </div>
         </div>
     </nav>
@@ -146,83 +156,110 @@ $_Aappointments = json_decode($response, true);
                     </div>";
             }
             ?>
-            <table class="table custom_table">
-                <thead class="table-light">
-                    <tr>
-                        <th scope="col">Appointment ID</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Time</th>
-                        <th scope="col">Patient Name</th>
-                        <th scope="col">Patient Gender</th>
-                        <th scope="col">Patient Contact</th>
-                        <th scope="col">Doctor Name</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    if (count($_Aappointments) > 0) {
-                        foreach ($_Aappointments as $key => $value) {
-                            if ($value['a_date'] < date("Y-m-d")) {
-                                $_Spast_restrict = "disabled";
+            <div class="table-responsive">
+                <table class="table table-hover custom_table">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">Appointment ID</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Time</th>
+                            <th scope="col">Patient Name</th>
+                            <th scope="col">Patient Gender</th>
+                            <th scope="col">Patient Contact</th>
+                            <th scope="col">Doctor Name</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        if (count($_Aappointments) > 0) {
+                            foreach ($_Aappointments as $key => $value) {
+                                if ($_GET['filter'] == 'previous') {
+                                    $_Spast_restrict = "disabled";
+                                    $mark = "border-left: 5px solid #6c757d;";
+                                } else if ($_GET['filter'] == 'upcoming') {
+                                    $mark = "border-left: 5px solid #007bff;";
+                                } else {
+                                    if ($value['status'] == 'Not Attended') {
+                                        $mark = "border-left: 5px solid red;";
+                                    } else {
+                                        $mark = "border-left: 5px solid #28a745;";
+                                    }
+                                }
+                        ?>
+                                <tr>
+                                    <th scope='row' style="<?php echo $mark; ?>"><?php echo $value['appointmentId'] ?></th>
+                                    <td><?php echo $value['a_date'] ?></td>
+                                    <td><?php echo $value['a_time'] ?></td>
+                                    <td><?php echo $value['pName'] ?></td>
+                                    <td><?php echo $value['gender'] ?></td>
+                                    <td><?php echo $value['contact'] ?></td>
+                                    <td><?php echo $value['dName'] ?></td>
+                                    <td><?php echo $value['status'] ?></td>
+                                    <td>
+                                        <form method='post' style='display:inline;'>
+                                            <input type='hidden' name='updateId' value="<?php echo $value['appointmentId'] ?>">
+                                            <button class='update-btn' type='submit' <?php echo $_Spast_restrict ?>>Update</button>
+                                        </form>
+                                        <button type='button' class='delete-btn' <?php echo $_Spast_restrict ?> data-bs-toggle='modal' data-bs-target='#exampleModal'>Cancel</button>
+                                        <div class='modal fade' id='exampleModal' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
+                                            <div class='modal-dialog modal-sm'>
+                                                <div class='modal-content'>
+                                                    <div class='modal-header' style="background-color: #96ae97a9;">
+                                                        <h1 class='modal-title fs-5' id='exampleModalLabel'>Remove Confirmation</h1>
+                                                        <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                                                    </div>
+                                                    <div class='modal-body'>
+                                                        <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Back</button>
+                                                        <form method='post' style='display:inline;'>
+                                                            <input type='hidden' name='deleteId' value='<?php echo $value['appointmentId'] ?>'>
+                                                            <button type='submit' class='btn btn-danger'>Confirm</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                        <?php
                             }
+                        } else {
                             echo "
                                     <tr>
-                                        <th scope='row'>" . $value['appointmentId'] . "</th>
-                                        <td>" . $value['a_date'] . "</td>
-                                        <td>" . $value['a_time'] . "</td>
-                                        <td>" . $value['pName'] . "</td>
-                                        <td>" . $value['gender'] . "</td>
-                                        <td>" . $value['contact'] . "</td>
-                                        <td>" . $value['dName'] . "</td>
-                                        <td>
-                                            <form method='post' style='display:inline;'>
-                                                <input type='hidden' name='updateId' value='" . $value['appointmentId'] . "'>
-                                                <button class='update-btn' type='submit' $_Spast_restrict>Update</button>
-                                            </form>
-                                            <form method='post' style='display:inline;'>
-                                                <input type='hidden' name='deleteId' value='" . $value['appointmentId'] . "'>
-                                                <button type='submit' class='delete-btn' $_Spast_restrict onclick=\"return confirm('Do you want to cancel this appointment?')\">Cancel</button>
-                                            </form>
-                                        </td>
+                                        <td colspan='8' style='text-align: center; '>No Record Found</td>
                                     </tr>
                                 ";
                         }
-                    } else {
-                        echo "
-                                <tr>
-                                    <td colspan='8' style='text-align: center; '>No Record Found</td>
-                                </tr>
-                            ";
-                    }
-                    //delete an appointment
-                    if (isset($_POST['deleteId'])) {
-                        $curl = curl_init();
-                        curl_setopt_array($curl, array(
-                            CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/delete.php",
-                            // CURLOPT_RETURNTRANSFER => true,
-                            CURLOPT_POST => true,
-                            CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
-                            CURLOPT_POSTFIELDS => array(
-                                "deleteId" => $_POST['deleteId'],
-                                "action" => "deleteAnAppointment"
-                            )
-                        ));
-                        $response = curl_exec($curl);
-                        curl_close($curl);
-                        if ($response == 'deleted') {
-                            setcookie("delete_msg", "You have cancelled an appointment!", time() + 2);
-                            header("Location: receptionist.php");
+                        //delete an appointment
+                        if (isset($_POST['deleteId'])) {
+                            $curl = curl_init();
+                            curl_setopt_array($curl, array(
+                                CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/delete.php",
+                                // CURLOPT_RETURNTRANSFER => true,
+                                CURLOPT_POST => true,
+                                CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
+                                CURLOPT_POSTFIELDS => array(
+                                    "deleteId" => $_POST['deleteId'],
+                                    "action" => "deleteAnAppointment"
+                                )
+                            ));
+                            $response = curl_exec($curl);
+                            curl_close($curl);
+                            if ($response == 'deleted') {
+                                setcookie("delete_msg", "You have cancelled an appointment!", time() + 2);
+                                header("Location: receptionist.php");
+                            }
                         }
-                    }
-                    ?>
-                </tbody>
-            </table>
+                        ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <!-- End of Body -->
     <!-- create an appointment offcanvas -->
-    <div class="offcanvas offcanvas-top" tabindex="-1" data-bs-scroll="true" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
+    <div class=" offcanvas offcanvas-top" tabindex="-1" data-bs-scroll="true" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
         <?php
         if (isset($_POST['addAppointment'])) {
             $data = array(
@@ -407,6 +444,18 @@ $_Aappointments = json_decode($response, true);
                         }
                         ?>
                     </select>
+                    <select name="status">
+                        <!-- <option selected disabled>Status</option> -->
+                        <?php
+                            echo "<option selected value='" . $_AtoUpdate['status'] . "'>" . $_AtoUpdate['status'] . "</option>";
+                            if($_AtoUpdate['status'] == 'Attended'){
+                                echo "<option value='Not Attended'>Not Attended</option>";
+                            } 
+                            elseif ($_AtoUpdate['status'] == 'Not Attended') {
+                            echo "<option value='Attended'>Attended</option>";
+                            }
+                        ?>
+                    </select>
                 </div>
                 <button class="update-btn" type="submit" name="updateAppointment" value="<?php echo $_POST['updateId']; ?>">Update Appointment</button>
             </form>
@@ -418,7 +467,8 @@ $_Aappointments = json_decode($response, true);
                 'dateOfAppointment' => $_POST['dateOfAppointment'],
                 'timeOfAppointment' => $_POST['timeOfAppointment'],
                 "patientId" => $_POST['patientId'],
-                'doctorId' => $_POST['doctorId']
+                'doctorId' => $_POST['doctorId'],
+                "status" => $_POST['status']
             );
             $data = json_encode($data);
             $curl = curl_init();
@@ -452,8 +502,8 @@ $_Aappointments = json_decode($response, true);
         </div>
         <div class="offcanvas-body">
             <div class="table_container">
-                <table class="table custom_table">
-                    <thead class="table-secondary">
+                <table class="table table-hover custom_table">
+                    <thead class="table-light">
                         <tr>
                             <th scope="col">Patient ID</th>
                             <th scope="col">Name</th>
@@ -576,8 +626,8 @@ $_Aappointments = json_decode($response, true);
         </div>
         <div class="offcanvas-body">
             <div class="table_container">
-                <table class="table custom_table">
-                    <thead class="table-secondary">
+                <table class="table table-hover custom_table">
+                    <thead class="table-light">
                         <tr>
                             <th scope="col">Doctor ID</th>
                             <th scope="col">Name</th>
@@ -632,6 +682,4 @@ $_Aappointments = json_decode($response, true);
     </div>
     <!-- End of Profile Upload toast -->
 </body>
-
 </html>
-<?php $conn = null; ?>

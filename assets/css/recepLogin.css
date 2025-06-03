@@ -34,6 +34,7 @@ input:focus{
     background-color: black;
     color: white;
     border: none;
+    transition: 0.5s;
 }
 .btn:hover{
     background-color: #96ae97;

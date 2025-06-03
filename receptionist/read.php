@@ -16,7 +16,7 @@
 
         // Read Appointments
         public function getAppointments($_Ssign, $_Stoday){
-            $stmt = $this->conn -> prepare("SELECT a.appointmentId, a.a_date, a.a_time, p.name as pName, d.name as dName, p.phone as contact, p.gender FROM appointment a join patient p on p.patientid = a.r_patientId join doctor d on d.doctorId = a.r_doctorId where a.a_date $_Ssign ? ORDER BY a.a_date, a.a_time;");
+            $stmt = $this->conn -> prepare("SELECT a.appointmentId, a.a_date, a.a_time, a.status, p.name as pName, d.name as dName, p.phone as contact, p.gender FROM appointment a join patient p on p.patientid = a.r_patientId join doctor d on d.doctorId = a.r_doctorId where a.a_date $_Ssign ? ORDER BY a.a_date, a.a_time;");
             $stmt->bindParam(1, $_Stoday);
             $stmt->execute();
             return $stmt->fetchAll();
@@ -36,7 +36,7 @@
 
         // Read an appointment to update an appointment
         public function getAnAppointment($_IupdateId){
-            $stmt = $this->conn->prepare("SELECT a.a_date, a.a_time, a.r_patientId, a.r_doctorId, p.name FROM appointment a join patient p on p.patientId = a.r_patientId WHERE appointmentId = ?");
+            $stmt = $this->conn->prepare("SELECT a.a_date, a.a_time, a.r_patientId, a.r_doctorId, a.status, p.name FROM appointment a join patient p on p.patientId = a.r_patientId WHERE appointmentId = ?");
             $stmt->bindParam(1, $_IupdateId);
             $stmt->execute();
             return $stmt->fetch();

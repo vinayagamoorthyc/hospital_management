@@ -19,7 +19,6 @@ input:focus{
 /* NavBar */
 .custom_nav{
     border-bottom: 1px solid var(--borderColor);
-    position: fixed;
     width: 100%;
     background-color:  #96ae972f !important;
     backdrop-filter: blur(15px);
@@ -45,6 +44,11 @@ input:focus{
     border-radius: 50%;
     object-fit: cover;
     border: 1px solid var(--borderColor);
+    transition: var(--btnTransition);
+}
+.profile_image:hover{
+    border-radius: 10px;
+    transition: var(--btnTransition);
 }
 /* End of Navbar */
 
@@ -63,11 +67,13 @@ input:focus{
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
     gap: 15px;
 }
 .custom_dropdown, .custom_logout{
     background-color: var(--btnColor);
     color: var(--btnFontColor);
+    transition: var(--btnTransition);
 }
 .custom_dropdown:hover, .custom_logout:hover{
     background-color: var(--hoverColor);
@@ -96,6 +102,7 @@ input:focus{
     border-radius: 5px;
     background-color: var(--btnColor);
     color: var(--btnFontColor);
+    transition: var(--btnTransition);
 }
 .create-btn:hover{
     background-color: green;
@@ -140,6 +147,7 @@ input:focus{
     font-size: 18px;
     border: none;
     border-radius: 5px;
+    transition: var(--btnTransition);
 }
 .add-btn:hover{
     background-color: green;
@@ -147,3 +155,18 @@ input:focus{
     transition: var(--btnTransition);
 }
 /* End of offcanvas styles */
+
+@media (min-width:320px) and (max-width:480px){
+    .custom_container{
+        padding: 0px 10px !important;
+    }
+    .body {
+        margin: 0px 5px;   
+    }
+    .body .topic_flex{
+        justify-content: center;
+    }
+    .nav_flex {
+        margin: 20px 0px 5px;
+    }
+}

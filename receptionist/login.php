@@ -1,11 +1,5 @@
 <?php
     error_reporting(0);
-
-    // db connection
-    include "../db.php";
-    $db = new Database();
-    $conn = $db->getConnection();
-
     setcookie(session_name(), "", time()+0, "/");
 
     //authentication
@@ -63,6 +57,3 @@
     </div>
 </body>
 </html>
-<?php
-    $conn = null;
-?>

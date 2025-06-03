@@ -3,16 +3,15 @@
 
     // DB connection
     include "../db.php";
-    $db = new Database();
-    $conn = $db->getConnection();
 
     // Appointment class
-    class Appointment
+    class Appointment extends Database
     {
         private $conn;
 
-        public function __construct($conn){
-            $this->conn = $conn;
+        public function __construct(){
+            parent::__construct();
+            $this->conn = parent::getConnection();
         }
 
         public function isSlotTaken($_Sdate, $_Stime){
@@ -34,12 +33,13 @@
     }
 
     // Patient Class
-    class Patient
+    class Patient extends Database
     {
         private $conn;
 
-        public function __construct($conn){
-            $this->conn = $conn;
+        public function __construct(){
+            parent::__construct();
+            $this->conn = parent::getConnection();
         }
 
         public function isPhoneRegistered($_Sphone){
@@ -65,7 +65,7 @@
 
         // create appointment
         if($_POST['action'] == 'createAppointment'){
-            $appointment = new Appointment($conn);
+            $appointment = new Appointment();
 
             $_Sdate = $data['dateOfAppointment'];
             $_Stime = $data['timeOfAppointment'];
@@ -85,7 +85,7 @@
     
         // create patient
         elseif($_POST['action'] == 'createPatient'){
-            $patient = new Patient($conn);
+            $patient = new Patient();
 
             $_Sname = $data['name'];
             $_Iage = $data['age'];

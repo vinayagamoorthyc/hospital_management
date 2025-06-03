@@ -3,15 +3,14 @@
 
     // db connection
     include "../db.php";
-    $db = new Database();
-    $conn = $db->getConnection();
 
     // Receptionist Class
-    class Receptionist{
+    class Receptionist extends Database{
         private $conn;
 
-        public function __construct($conn){
-            $this->conn = $conn;
+        public function __construct(){
+            parent::__construct();
+            $this->conn = parent::getConnection();
         }
 
         public function findReceptionist($_Sname, $_Spass){
@@ -28,7 +27,7 @@
         
         //authentication
         if($_POST['action'] == 'receptionist'){
-            $receptionist = new Receptionist($conn);
+            $receptionist = new Receptionist();
 
             $_Sname = $data['name'];
             $_Spass = $data['pass'];
