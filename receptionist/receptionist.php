@@ -5,7 +5,7 @@ ob_start();
 // session management
 session_start();
 if (!isset($_SESSION['sessionId'])) {
-    header("Location: login.php");
+    header("Location: ../home.php");
 }
 
 // Logout Session
@@ -13,7 +13,7 @@ if (isset($_POST['logout'])) {
     session_unset();
     session_destroy();
     setcookie(session_name(), "", time() + 0, "/");
-    header("Location: login.php");
+    header("Location: ../home.php");
 }
 
 // Profile Image upload
@@ -503,7 +503,7 @@ if ($_GET['filter'] == 'previous') {
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <div class="table_container">
+            <div class="table_container table-responsive">
                 <table class="table table-hover custom_table">
                     <thead class="table-light">
                         <tr>
@@ -627,7 +627,7 @@ if ($_GET['filter'] == 'previous') {
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <div class="table_container">
+            <div class="table_container table-responsive">
                 <table class="table table-hover custom_table">
                     <thead class="table-light">
                         <tr>

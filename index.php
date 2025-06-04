@@ -4,6 +4,6 @@
     if(isset($_SESSION['sessionId'])){
         header("Location: ./receptionist/receptionist.php");
     }else{
-        header("Location: ./receptionist/login.php");
+        header("Location: ./home.php");
     }
 ?>
