@@ -169,11 +169,42 @@
     </div>
 
     <!-- Footer -->
-    <div class="footer">
-        <div class="footer__">
-
+    <div class="footer p-[70px] bg-[#96ae971f]">
+        <div class="footer__s1 flex justify-between pb-[40px] border-b border-[#96ae97]">
+            <div>
+                <h2 class="text-2xl font-bold">HealthCare</h2>
+                <p class="text-lg mt-5 mb-5 text-gray-500">Experience personalized healthcare from the comfort of<br> your home with our advanced telemedicine services.</p>
+                <div class="text-2xl flex gap-5 text-gray-500">
+                    <span><i class="fa-brands fa-whatsapp"></i></span>
+                    <span><i class="fa-brands fa-instagram"></i></span>
+                    <span><i class="fa-brands fa-square-youtube"></i></span>
+                </div>
+            </div>
+            <div class="flex gap-40">
+                <div class="text-xl flex flex-col gap-5">
+                    <p>Company</p>
+                    <p class="text-gray-500">About</p>
+                    <p class="text-gray-500">Why Us</p>
+                    <p class="text-gray-500">Quality</p>
+                    <p class="text-gray-500">Contact</p>
+                </div>
+                <div class="text-xl flex flex-col gap-5">
+                    <p>Support</p>
+                    <p class="text-gray-500">FAQs</p>
+                    <p class="text-gray-500">Support Center</p>
+                    <p class="text-gray-500">Security</p>
+                </div>
+                <div class="text-xl flex flex-col gap-5">
+                    <p>More</p>
+                    <p class="text-gray-500">Become Member</p>
+                    <p class="text-gray-500">Events</p>
+                    <p class="text-gray-500">Terms & Conditions</p>
+                </div>
+            </div>
         </div>
-        <div></div>
+        <div class="footer__s2 pt-[30px] text-gray-500 text-xl">
+            &copy; HealthCare, 2025 Allright reserved
+        </div>
     </div>
 </body>
 

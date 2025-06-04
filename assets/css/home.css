@@ -42,20 +42,22 @@ body {
     text-decoration: none;
     color: black;
     font-size: 18px;
-    padding: 10px 20px;
+    padding: 7px 20px;
+    border: 1px solid #00000000;
     transition: var(--btnTransition);
 }
 .navbar__s2 a:hover{
-    padding: 10px 20px;
+    padding: 7px 20px;
     background-color: var(--hoverColor);
     border-radius: 20px;
+    border: 1px solid var(--borderColor);
     transition: var(--btnTransition);
 }
 .navbar .login, .quality button{
     font-size: 18px;
     border: none;
-    padding: 7px 12px;
-    border-radius: 5px;
+    padding: 7px 20px;
+    border-radius: 10px;
     background-color: var(--btnColor);
     color: var(--btnFontColor);
     transition: var(--btnTransition);
