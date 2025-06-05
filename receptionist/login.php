@@ -49,6 +49,7 @@
                 <div style='color:red;'><?php echo $response;?></div>
                 <button class="btn" type="submit" name="signin" value="signin">Sign In</button>
             </form>
+            <a href="../home.php">Back</a>
         </div>
         <div class="img">
             <div class="img_text">Receptionist</div>
