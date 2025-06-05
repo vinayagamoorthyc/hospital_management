@@ -156,13 +156,6 @@ if ($_GET['filter'] == 'previous') {
                     </div>";
             }
             ?>
-            <?php
-            if (count($_Aappointments) > 0) {
-                if ($_GET['filter'] == 'previous') {
-                    $_Spast_restrict= "style='display: none'";
-                    $mark = "border-left: 5px solid #6c757d;";
-                }
-            ?>
             <div class="table-responsive">
                 <table class="table table-hover custom_table">
                     <thead class="table-light">
@@ -175,86 +168,93 @@ if ($_GET['filter'] == 'previous') {
                             <th scope="col">Patient Contact</th>
                             <th scope="col">Doctor Name</th>
                             <th scope="col">Status</th>
+                            <?php
+                            if (count($_Aappointments) > 0) {
+                                if ($_GET['filter'] == 'previous') {
+                                    $_Spast_restrict = "style='display: none'";
+                                    $mark = "border-left: 5px solid #6c757d;";
+                                }
+                            ?>
                             <th <?php echo $_Spast_restrict ?> scope="col">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                            foreach ($_Aappointments as $key => $value) {
-                                if ($_GET['filter'] == 'upcoming') {
-                                    $mark = "border-left: 5px solid #007bff;";
-                                } elseif($_GET['filter'] == 'today') {
-                                    if ($value['status'] == 'Not Attended') {
-                                        $mark = "border-left: 5px solid red;";
-                                    } else {
-                                        $mark = "border-left: 5px solid #28a745;";
+                                foreach ($_Aappointments as $key => $value) {
+                                    if ($_GET['filter'] == 'upcoming') {
+                                        $mark = "border-left: 5px solid #007bff;";
+                                    } elseif ($_GET['filter'] == 'today' || !isset($_GET['filter'])) {
+                                        if ($value['status'] == 'Not Attended') {
+                                            $mark = "border-left: 5px solid red;";
+                                        } else {
+                                            $mark = "border-left: 5px solid #28a745;";
+                                        }
                                     }
-                                }
                         ?>
-                                <tr>
-                                    <th scope='row' style="<?php echo $mark; ?>"><?php echo $value['appointmentId'] ?></th>
-                                    <td><?php echo $value['a_date'] ?></td>
-                                    <td><?php echo $value['a_time'] ?></td>
-                                    <td><?php echo $value['pName'] ?></td>
-                                    <td><?php echo $value['gender'] ?></td>
-                                    <td><?php echo $value['contact'] ?></td>
-                                    <td><?php echo $value['dName'] ?></td>
-                                    <td><?php echo $value['status'] ?></td>
-                                    <td <?php echo $_Spast_restrict ?>>
-                                        <form method='post' style='display:inline;'>
-                                            <input type='hidden' name='updateId' value="<?php echo $value['appointmentId'] ?>">
-                                            <button class='update-btn' type='submit'>Update</button>
-                                        </form>
-                                        <button type='button' class='delete-btn' data-bs-toggle='modal' data-bs-target='#exampleModal'>Cancel</button>
-                                        <div class='modal fade' id='exampleModal' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
-                                            <div class='modal-dialog modal-sm'>
-                                                <div class='modal-content'>
-                                                    <div class='modal-header' style="background-color: #96ae97a9;">
-                                                        <h1 class='modal-title fs-5' id='exampleModalLabel'>Remove Confirmation</h1>
-                                                        <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
-                                                    </div>
-                                                    <div class='modal-body'>
-                                                        <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Back</button>
-                                                        <form method='post' style='display:inline;'>
-                                                            <input type='hidden' name='deleteId' value='<?php echo $value['appointmentId'] ?>'>
-                                                            <button type='submit' class='btn btn-danger'>Confirm</button>
-                                                        </form>
-                                                    </div>
+                            <tr>
+                                <th scope='row' style="<?php echo $mark; ?>"><?php echo $value['appointmentId'] ?></th>
+                                <td><?php echo $value['a_date'] ?></td>
+                                <td><?php echo $value['a_time'] ?></td>
+                                <td><?php echo $value['pName'] ?></td>
+                                <td><?php echo $value['gender'] ?></td>
+                                <td><?php echo $value['contact'] ?></td>
+                                <td><?php echo $value['dName'] ?></td>
+                                <td><?php echo $value['status'] ?></td>
+                                <td <?php echo $_Spast_restrict ?>>
+                                    <form method='post' style='display:inline;'>
+                                        <input type='hidden' name='updateId' value="<?php echo $value['appointmentId'] ?>">
+                                        <button class='update-btn' type='submit'>Update</button>
+                                    </form>
+                                    <button type='button' class='delete-btn' data-bs-toggle='modal' data-bs-target='#exampleModal'>Cancel</button>
+                                    <div class='modal fade' id='exampleModal' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
+                                        <div class='modal-dialog modal-sm'>
+                                            <div class='modal-content'>
+                                                <div class='modal-header' style="background-color: #96ae97a9;">
+                                                    <h1 class='modal-title fs-5' id='exampleModalLabel'>Remove Confirmation</h1>
+                                                    <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                                                </div>
+                                                <div class='modal-body'>
+                                                    <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Back</button>
+                                                    <form method='post' style='display:inline;'>
+                                                        <input type='hidden' name='deleteId' value='<?php echo $value['appointmentId'] ?>'>
+                                                        <button type='submit' class='btn btn-danger'>Confirm</button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
-                                    </td>
-                                </tr>
-                        <?php
-                            }
-                        } else {
-                            echo "
+                                    </div>
+                                </td>
+                            </tr>
+                    <?php
+                                }
+                            } else {
+                                echo "
                                     <tr>
                                         <td colspan='9' style='text-align: center; '>No Record Found</td>
                                     </tr>
                                 ";
-                        }
-                        //delete an appointment
-                        if (isset($_POST['deleteId'])) {
-                            $curl = curl_init();
-                            curl_setopt_array($curl, array(
-                                CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/delete.php",
-                                // CURLOPT_RETURNTRANSFER => true,
-                                CURLOPT_POST => true,
-                                CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
-                                CURLOPT_POSTFIELDS => array(
-                                    "deleteId" => $_POST['deleteId'],
-                                    "action" => "deleteAnAppointment"
-                                )
-                            ));
-                            $response = curl_exec($curl);
-                            curl_close($curl);
-                            if ($response == 'deleted') {
-                                setcookie("delete_msg", "You have cancelled an appointment!", time() + 2);
-                                header("Location: receptionist.php");
                             }
-                        }
-                        ?>
+                            //delete an appointment
+                            if (isset($_POST['deleteId'])) {
+                                $curl = curl_init();
+                                curl_setopt_array($curl, array(
+                                    CURLOPT_URL => "http://127.0.0.1/Training_project/receptionist/delete.php",
+                                    // CURLOPT_RETURNTRANSFER => true,
+                                    CURLOPT_POST => true,
+                                    CURLOPT_HTTPHEADER => array("API-KEY: hospital123"),
+                                    CURLOPT_POSTFIELDS => array(
+                                        "deleteId" => $_POST['deleteId'],
+                                        "action" => "deleteAnAppointment"
+                                    )
+                                ));
+                                $response = curl_exec($curl);
+                                curl_close($curl);
+                                if ($response == 'deleted') {
+                                    setcookie("delete_msg", "You have cancelled an appointment!", time() + 2);
+                                    header("Location: receptionist.php");
+                                }
+                            }
+                    ?>
                     </tbody>
                 </table>
             </div>
