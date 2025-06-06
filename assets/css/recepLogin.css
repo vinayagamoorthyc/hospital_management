@@ -3,22 +3,7 @@
     font-family: "Jost", sans-serif;
 }
 .login_flex{
-    display: flex;
     align-items: center;
-    justify-content: space-between;
-}
-.field{
-    display: flex;
-    flex-direction: column;
-    padding: 0px 100px;
-    width: 450px;
-    gap: 15px;
-}
-.inputs{
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    width: 100%;
 }
 .inputs input{
     padding: 10px 15px;
@@ -61,4 +46,5 @@ img{
 .field a{
     color: black;
     font-size: larger;
+    text-decoration: underline;
 }
