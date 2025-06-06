@@ -4,8 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Script for font awesome -->
     <script src="https://kit.fontawesome.com/f648aa3f20.js" crossorigin="anonymous"></script>
+    <!-- Script for Atilwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- external style -->
     <link rel="stylesheet" href="./assets/css/home.css">
     <title>Hospital</title>
 </head>
