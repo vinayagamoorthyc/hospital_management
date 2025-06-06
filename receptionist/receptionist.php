@@ -65,8 +65,7 @@ if ($_GET['filter'] == 'previous') {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
     <!-- Script for toast for image upload functionality -->
     <script src="../assets/js/toast.js"></script>
-    <!-- Link for Bootstrap icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Link for Font icons -->
     <!-- Link for my style -->
     <link rel="stylesheet" href="../assets/css/receptionist.css">
     <title>Receptionist</title>
@@ -93,7 +92,7 @@ if ($_GET['filter'] == 'previous') {
                         </ul>
                     </div>
                     <form method='post' style='display:inline;' class="nav-item">
-                        <button class='btn custom_logout' type='submit' name="logout" value="logout"><i class="bi bi-person profile_icon"></i> Logout</button>
+                        <button class='btn custom_logout' type='submit' name="logout" value="logout">Logout</button>
                     </form>
                 </div>
             </div>
