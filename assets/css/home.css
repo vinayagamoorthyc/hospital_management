@@ -16,9 +16,6 @@
 body {
     margin: 0px;
 }
-.body{
-    padding: 0px 70px;
-}
 
 /* Navbar */
 .navbar{
@@ -26,17 +23,13 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 50px;
+    /* padding: 20px 70px; */
     border-bottom: 1px solid var(--borderColor);
     background-color: var(--hoverColor);
     position: fixed;
     width: 100%;
     backdrop-filter: blur(10px);
     z-index: 10;
-}
-.navbar__s2{
-    display: flex;
-    gap: 10px;
 }
 .navbar__s2 a{
     text-decoration: none;
@@ -73,10 +66,6 @@ body {
     background-color: #ffffff;
     background-image: linear-gradient(#bacdcf2d 4px, transparent 4px), linear-gradient(to right, #bacdcf2d 4px, #ffffff 4px);
     background-size: 150px 150px;
-    padding: 0px 70px;
-}
-.banner__s1{
-    padding: 160px 0px 70px;
 }
 .banner__s1 span, .about span, .why span, .quality span{
     font-size: 20px;
@@ -86,16 +75,14 @@ body {
     background-color: var(--hoverColor);
 }
 .banner__s1 h1{
-    font-size: 85px;
     font-weight: 500;
     margin: 10px 0px;
-    line-height: 93px;
+    /* line-height: 93px; */
 }
 .banner__s1 i{
     color: #96ae97;
 }
 .banner__s1 p{
-    font-size: 20px;
     color: #000000a3;
 }
 .banner__s2{
@@ -126,20 +113,14 @@ body {
     margin: 10px 0px;
     font-weight: 400;
 }
-.banner__card button{
+.banner__s2 button{
     font-size: 16px;
-    border: none;
     padding: 7px 12px;
     border-radius: 5px;
-    background-color: white;
-    color: var(--btnFontColor);
-    transition: var(--btnTransition);
 }
 
 /* brands */
 .brands{
-    display: flex;
-    justify-content: space-between;
     margin: 140px 0px 0px;
 }
 .brands img{
@@ -148,47 +129,28 @@ body {
 }
 
 /* About */
-.about{
-    padding: 140px 0px 0px;
-}
 .about__sCard{
-    padding: 10px;
     text-align: center;
     border: 1px solid var(--borderColor);
     border-radius: 20px;
-    width: 200px;
 }
 .about__sCard h1{
     color: var(--btnColor);
-    font-size: 50px;
 }
 .about__sCard p{
-    font-size: 20px;
     color: #000000a3;
 }
 
 /* Why Choose us */
-.why {
-    padding: 140px 0px 0px;
-}
-.why .why__card{
-    padding: 20px;
+.why__card{
     border: 1px solid var(--borderColor);
     border-radius: 20px;
-    width: 450px;
-    height: 230px;
 }
 .why__card i{
     color: var(--btnColor);
-    font-size: 30px;
-    padding: 20px;
     background-color: #96ae9723;
     border-radius: 50%;
 }
-.why__card h1{
-    font-size: 26px;
-}
 .why__card p{
-    font-size: 18px;
     color: gray;
 }
