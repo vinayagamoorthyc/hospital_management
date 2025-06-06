@@ -1,5 +1,7 @@
 **My Intern Mini Project on Hospital Managememt System**
 
+![Screenshot 2025-06-06 at 17-24-03 Hospital](https://github.com/user-attachments/assets/a8c3ea6b-bad0-4017-a6ae-109db62dd18c)
+
 <img width="1512" alt="Screenshot 2025-05-26 at 11 33 59 PM" src="https://github.com/user-attachments/assets/f78a8f24-9746-415c-b433-b9a34f890313" />
 
 <img width="1512" alt="Screenshot 2025-05-26 at 11 33 47 PM" src="https://github.com/user-attachments/assets/507f06d1-a2f6-4252-bc18-8ed759382067" />
