@@ -82,16 +82,16 @@
                     <h1 class="text-3xl md:text-5xl mt-6 md:mt-8">We Provide Quality Care<br>for Your Health</h1>
                     <p class="text-lg md:text-2xl mt-5 md:mt-8 text-gray-500">We are committed to delivering exceptional healthcare services to prioritize your well-being with our experienced professionals strive to create an environment that fosters healing and promotes a healthy lifestyle.</p>
                 </div>
-                <div class="flex justify-between">
-                    <div class="about__sCard w-[155px] md:w-[200px] p-1 md:p-[10px]">
+                <div class="grid grid-cols-3 gap-1">
+                    <div class="about__sCard  md:w-[200px] p-1 md:p-[10px]">
                         <h1 class="text-2xl md:text-[50px]">350+</h1>
                         <p class="text-[16px] md:text-[20px]">Companies Affliated</p>
                     </div>
-                    <div class="about__sCard w-[155px] md:w-[200px] p-1 md:p-[10px]">
+                    <div class="about__sCard md:w-[200px] p-1 md:p-[10px]">
                         <h1 class="text-2xl md:text-[50px]">567+</h1>
                         <p class="text-[16px] md:text-[20px]">Expert doctors</p>
                     </div>
-                    <div class="about__sCard w-[155px] md:w-[200px] p-1 md:p-[10px]">
+                    <div class="about__sCard md:w-[200px] p-1 md:p-[10px]">
                         <h1 class="text-2xl md:text-[50px]">780+</h1>
                         <p class="text-[16px] md:text-[20px]">Happy patient</p>
                     </div>
@@ -112,32 +112,32 @@
                 <div class="why__card p-2 md:p-[20px]">
                     <i class="fa-solid fa-flask-vial md:text-[30px] p-3 md:p-[20px]"></i>
                     <h1 class="md:text-[26px]">24/7 Pharmacy Services</h1>
-                    <p class="md:text-[18px]">Access to a fully stocked pharmacy round the clock for medications and healthcare essentials.</p>
+                    <p class="md:text-[18px] text-sm">Access to a fully stocked pharmacy round the clock for medications and healthcare essentials.</p>
                 </div>
                 <div class="why__card p-2 md:p-[20px]">
                     <i class="fa-solid fa-bell md:text-[30px] p-3 md:p-[20px]"></i>
                     <h1 class="md:text-[26px]">Emergency Care</h1>
-                    <p class="md:text-[18px]">A fully-equipped emergency department ensures swift and effective response to critical situations.</p>
+                    <p class="md:text-[18px] text-sm">A fully-equipped emergency department ensures swift and effective response to critical situations.</p>
                 </div>
                 <div class="why__card p-2 md:p-[20px]">
                     <i class="fa-solid fa-comments md:text-[30px] p-3 md:p-[20px]"></i>
                     <h1 class="md:text-[26px]">Telemedicine Services</h1>
-                    <p class="md:text-[18px]">The hospital offers a wide range of medical specialties, ensuring expertise in various fields of medicine.</p>
+                    <p class="md:text-[18px] text-sm">The hospital offers a wide range of medical specialties, ensuring expertise in various fields of medicine.</p>
                 </div>
                 <div class="why__card p-2 md:p-[20px]">
                     <i class="fa-solid fa-heart md:text-[30px] p-3 md:p-[20px]"></i>
                     <h1 class="md:text-[26px]">Rehabilitation Facilities</h1>
-                    <p class="md:text-[18px]">Utilize rehabilitation services to support recovery and enhance your physical well-being rehabilitation services.</p>
+                    <p class="md:text-[18px] text-sm">Utilize rehabilitation services to support recovery and enhance your physical well-being rehabilitation services.</p>
                 </div>
                 <div class="why__card p-2 md:p-[20px]">
                     <i class="fa-solid fa-paste md:text-[30px] p-3 md:p-[20px]"></i>
                     <h1 class="md:text-[26px]">Comprehensive Specialties</h1>
-                    <p class="md:text-[18px]">The hospital offers a wide range of medical specialties, ensuring expertise in various fields of medicine.</p>
+                    <p class="md:text-[18px] text-sm">The hospital offers a wide range of medical specialties, ensuring expertise in various fields of medicine.</p>
                 </div>
                 <div class="why__card p-2 md:p-[20px]">
                     <i class="fa-solid fa-building md:text-[30px] p-3 md:p-[20px]"></i>
                     <h1 class="md:text-[26px]">Luxurious Patient Rooms</h1>
-                    <p class="md:text-[18px]">Patients experience comfort in well-appointed private rooms with modern amenities.</p>
+                    <p class="md:text-[18px] text-sm">Patients experience comfort in well-appointed private rooms with modern amenities.</p>
                 </div>
             </div>
         </div>
