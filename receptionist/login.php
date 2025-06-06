@@ -41,7 +41,7 @@ if (isset($_POST['signin'])) {
     <title>Login</title>
 </head>
 
-<body class="p-2 mt-20 md:mt-0 relative">
+<body class="p-2 mt-[50%] md:mt-0 relative bg-[#96ae971f] md:bg-white">
     <div class="login_flex relative md:flex justify-between">
         <div class="field absolute inset-0 md:static md:ml-45 z-10 backdrop-blur-lg bg-white/50 rounded-xl text-center md:text-start px-10 md:p-0">
             <div class="signin">Sign In</div>
