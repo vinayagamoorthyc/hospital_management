@@ -152,7 +152,7 @@
                     <span class="hidden md:inline">Quality</span>
                     <h1 class="mt-6 md:mt-8 text-3xl md:text-5xl text-white md:text-black">Our Performance Quality<br> Care, Made For You</h1>
                     <p class="text-lg md:text-2xl mt-3 text-white md:text-gray-500">We understand that each individual has distinct requirements when<br class="hidden md:block"> it comes to their health and well-being.</p>
-                    <div class="md:text-2xl mt-4 text-gray-500 hidden md:block">
+                    <div class="md:text-xl mt-4 text-gray-500 hidden md:block">
                         <p><i class="fa-solid fa-circle-check text-[#96ae97]"></i> &nbsp;Expert Healthcare Professionals</p>
                         <p><i class="fa-solid fa-circle-check text-[#96ae97]"></i> &nbsp;Cutting-Edge Technology</p>
                         <p><i class="fa-solid fa-circle-check text-[#96ae97]"></i> &nbsp;Timely and Efficient Services</p>
