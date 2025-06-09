@@ -66,6 +66,7 @@ if ($_GET['filter'] == 'previous') {
     <!-- Script for toast for image upload functionality -->
     <script src="../assets/js/toast.js"></script>
     <!-- Link for Font icons -->
+    <script src="https://kit.fontawesome.com/f648aa3f20.js" crossorigin="anonymous"></script>
     <!-- Link for my style -->
     <link rel="stylesheet" href="../assets/css/receptionist.css">
     <title>Receptionist</title>
@@ -92,7 +93,7 @@ if ($_GET['filter'] == 'previous') {
                         </ul>
                     </div>
                     <form method='post' style='display:inline;' class="nav-item">
-                        <button class='btn custom_logout' type='submit' name="logout" value="logout">Logout</button>
+                        <button class='btn custom_logout' type='submit' name="logout" value="logout"><i class="fas fa-power-off"></i> Sign Out</button>
                     </form>
                 </div>
             </div>
@@ -107,7 +108,7 @@ if ($_GET['filter'] == 'previous') {
             <div class="btn_flex">
                 <div class="dropdown">
                     <button class="btn dropdown-toggle custom_dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Filter by Date
+                        <i class="fa-solid fa-arrow-down-wide-short"></i> Filter by Date
                     </button>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="./receptionist.php?filter=today">Today</a></li>
@@ -159,14 +160,14 @@ if ($_GET['filter'] == 'previous') {
                 <table class="table table-hover custom_table">
                     <thead class="table-light">
                         <tr>
-                            <th scope="col">Appointment ID</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Time</th>
+                            <th scope="col"><i class="fa-solid fa-hashtag"></i> Token</th>
+                            <th scope="col"><i class="far fa-calendar"></i> Date</th>
+                            <th scope="col"><i class="far fa-clock"></i> Time</th>
                             <th scope="col">Patient Name</th>
                             <th scope="col">Patient Gender</th>
                             <th scope="col">Patient Contact</th>
                             <th scope="col">Doctor Name</th>
-                            <th scope="col">Status</th>
+                            <th scope="col"><i class="fa-solid fa-list-check"></i> Status</th>
                             <?php
                             if (count($_Aappointments) > 0) {
                                 if ($_GET['filter'] == 'previous') {
@@ -174,7 +175,7 @@ if ($_GET['filter'] == 'previous') {
                                     $mark = "border-left: 5px solid #6c757d;";
                                 }
                             ?>
-                            <th <?php echo $_Spast_restrict ?> scope="col">Actions</th>
+                                <th <?php echo $_Spast_restrict ?> scope="col"><i class="fa-solid fa-sliders"></i> Modify/Remove</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -202,9 +203,9 @@ if ($_GET['filter'] == 'previous') {
                                 <td <?php echo $_Spast_restrict ?>>
                                     <form method='post' style='display:inline;'>
                                         <input type='hidden' name='updateId' value="<?php echo $value['appointmentId'] ?>">
-                                        <button class='update-btn' type='submit'>Update</button>
+                                        <button class='update-btn' type='submit'><i class="fa-regular fa-pen-to-square"></i> Update</button>
                                     </form>
-                                    <button type='button' class='delete-btn' data-bs-toggle='modal' data-bs-target='#exampleModal'>Cancel</button>
+                                    <button type='button' class='delete-btn' data-bs-toggle='modal' data-bs-target='#exampleModal'><i class="fa-regular fa-trash-can"></i> Cancel</button>
                                     <div class='modal fade' id='exampleModal' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
                                         <div class='modal-dialog modal-sm'>
                                             <div class='modal-content'>
@@ -528,7 +529,7 @@ if ($_GET['filter'] == 'previous') {
                                             <td>
                                                 <form method='post' style='display:inline;'>
                                                     <input type='hidden' name='p_updateId' value='" . $value['patientId'] . "'>
-                                                    <button class='update-btn' type='submit'>Update</button>
+                                                    <button class='update-btn' type='submit'><i class='fa-regular fa-pen-to-square'></i> Update</button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -669,8 +670,8 @@ if ($_GET['filter'] == 'previous') {
     <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
         <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false" style="width: 375px;">
             <div class="toast-header" style="background-color: #96ae97a9;">
-                <strong class="me-auto">Profile Upload</strong>
-                <small></small>
+                <strong class="me-auto"><i class="fa-regular fa-image"></i> Profile Upload</strong>
+                <small>Just now</small>
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
             <div class="toast-body">

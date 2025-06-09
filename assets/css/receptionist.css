@@ -131,7 +131,7 @@ input:focus{
 .inputs .input_flex{
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
     gap: 15px;
     width: 100%;
 }
