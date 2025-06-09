@@ -3,15 +3,14 @@
     
     // connection
     include "../db.php";
-    $db = new Database();
-    $conn = $db->getConnection();
 
     // Read class
-    class Read{
+    class Read extends Database{
         private $conn;
 
-        public function __construct($conn){
-            $this->conn = $conn;
+        public function __construct(){
+            parent::__construct();
+            $this->conn = parent::getConnection();
         }
 
         // Read Appointments
@@ -53,7 +52,7 @@
 
     // Controlling Requests
     if($_SERVER['HTTP_API_KEY'] == 'hospital123'){
-        $read = new Read($conn);
+        $read = new Read();
         
         // Read Appointments
         if($_POST['action'] == 'getAppointments'){

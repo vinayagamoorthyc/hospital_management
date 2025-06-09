@@ -42,6 +42,7 @@ use Dom\DtdNamedNodeMap;
         private $conn;
 
         public function __construct(){
+            parent::__construct();
             $this->conn = parent::getConnection();
         }
 
