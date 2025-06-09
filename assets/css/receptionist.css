@@ -21,7 +21,7 @@ input:focus{
     border-bottom: 1px solid var(--borderColor);
     width: 100%;
     background-color:  #96ae972f !important;
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(5px);
     z-index: 1;
 }
 .nav_flex{
