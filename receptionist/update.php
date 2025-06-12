@@ -1,7 +1,4 @@
 <?php
-
-use Dom\DtdNamedNodeMap;
-
     error_reporting(0);
 
     // db connection
